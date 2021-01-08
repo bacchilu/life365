@@ -1,0 +1,28 @@
+{
+    "name": "life365",
+    "version": "1.0.0",
+    "description": "life365",
+    "private": true,
+    "scripts": {
+        "update": "ncu -u",
+        "watch": "webpack --env development --config webpack.config.js --watch",
+        "build": "webpack --env production --config webpack.config.js",
+        "deploy": "surge public"
+    },
+    "author": "Luca Bacchi <bacchilu@gmail.com> (http://www.lucabacchi.it)",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.12.10",
+        "@babel/preset-env": "^7.12.11",
+        "@babel/preset-react": "^7.12.10",
+        "babel-loader": "^8.2.2",
+        "webpack": "^5.11.1",
+        "webpack-cli": "^4.3.1",
+        "npm-check-updates": "^10.2.5"
+    },
+    "dependencies": {
+        "core-js": "^3.8.2",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1"
+    }
+}
