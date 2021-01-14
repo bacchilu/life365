@@ -33,7 +33,7 @@ const NavBar = function (props) {
         };
 
         return (
-            <li key={item['ID_Categoria']} className="nav-item col-6 col-md-auto" style={{fontSize: '0.84em'}}>
+            <li key={item['ID_Categoria']} className="nav-item col-6 col-md-auto">
                 <a className="nav-link" href={item['slug']} onClick={onClick}>
                     {item['Descrizione']}
                 </a>
