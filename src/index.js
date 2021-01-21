@@ -12,14 +12,24 @@ const App = function (props) {
 
     const cards = categories.map(function (item) {
         return (
-            <div key={item['ID_Categoria']} className="col">
-                <div className="card border-dark text-center" style={{width: '18rem'}}>
-                    <div style={{height: '286px'}}>
-                        <img src={item['image']} className="card-img-top" alt="..." />
-                    </div>
-                    <div className="card-body">
-                        <h5 className="card-title">{item['Descrizione']}</h5>
-                    </div>
+            <div key={item['ID_Categoria']} className="col d-flex justify-content-center">
+                <div
+                    className="card text-center border-light shadow p-3 mb-5 bg-white rounded"
+                    style={{width: '18rem'}}
+                >
+                    <a href={item['slug']} className="text-decoration-none">
+                        <div style={{height: '13rem'}}>
+                            <img
+                                src={item['image']}
+                                className="card-img-top"
+                                alt="..."
+                                style={{maxWidth: '13rem', maxHeight: '13rem'}}
+                            />
+                        </div>
+                        <div className="card-body">
+                            <h5 className="card-title text-dark">{item['Descrizione']}</h5>
+                        </div>
+                    </a>
                 </div>
             </div>
         );
