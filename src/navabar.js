@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Search} from './search.js';
+
 export const NavBar = function ({categories}) {
     // React.useEffect(function () {
     //     // https://stackoverflow.com/questions/23764863/how-to-close-an-open-collapsed-navbar-when-clicking-outside-of-the-navbar-elemen
@@ -28,7 +30,7 @@ export const NavBar = function ({categories}) {
         };
 
         return (
-            <li key={item['ID_Categoria']} className="nav-item col-6 col-md-auto">
+            <li key={item['ID_Categoria']} className="nav-item col-6 col-lg-auto">
                 <a className="nav-link" href={item['slug']} onClick={onClick}>
                     {item['Descrizione']}
                 </a>
@@ -65,12 +67,7 @@ export const NavBar = function ({categories}) {
             </nav>
             <nav className="bd-subnavbar py-2" aria-label="Secondary navigation">
                 <div className="container-fluid">
-                    <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">
-                            Search
-                        </button>
-                    </form>
+                    <Search />
                 </div>
             </nav>
         </React.Fragment>

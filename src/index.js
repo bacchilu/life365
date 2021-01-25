@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import {API} from './parameters.js';
 import {NavBar} from './navabar';
 
 const App = function (props) {
     const [categories, setCategories] = React.useState([]);
     React.useEffect(async function () {
-        const response = await fetch('https://www.life365.eu/api/warehouse/getCategories');
+        const response = await fetch(`//${API}/warehouse/getCategories`);
         setCategories(await response.json());
     }, []);
 
