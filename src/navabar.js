@@ -65,6 +65,24 @@ export const NavBar = function ({categories}) {
                     </div>
                 </div>
             </nav>
+            <nav className="navbar navbar-expand-lg navbar-light">
+                <div className="container-fluid">
+                    <div className="navbar-collapse collapse" id="navbarCollapse">
+                        <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">
+                            <li className="nav-item col-6 col-lg-auto">
+                                <a className="nav-link" href="#">
+                                    AUTH
+                                </a>
+                            </li>
+                            <li className="nav-item col-6 col-lg-auto">
+                                <a className="nav-link" href="#">
+                                    CART
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
             <nav className="bd-subnavbar py-2" aria-label="Secondary navigation">
                 <div className="container-fluid">
                     <Search />
