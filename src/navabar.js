@@ -69,14 +69,18 @@ export const NavBar = function ({categories}) {
                 <div className="container-fluid">
                     <div className="navbar-collapse collapse" id="navbarCollapse">
                         <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">
-                            <li className="nav-item col-6 col-lg-auto">
+                            <li className="nav-item col-6 col-lg-auto ms-auto">
                                 <a className="nav-link" href="#">
-                                    AUTH
+                                    <button type="button" className="btn btn-light">
+                                        Login <i className="bi bi-box-arrow-in-right"></i>
+                                    </button>
                                 </a>
                             </li>
                             <li className="nav-item col-6 col-lg-auto">
                                 <a className="nav-link" href="#">
-                                    CART
+                                    <button type="button" className="btn btn-light">
+                                        Cart <i className="bi bi-cart4"></i>
+                                    </button>
                                 </a>
                             </li>
                         </ul>
