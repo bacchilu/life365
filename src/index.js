@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import localforage from 'localforage';
 
-// localforage.config({
-//     name: 'github.com/bacchilu/life365',
-// });
+localforage.config({
+    name: 'github.com/bacchilu/life365',
+});
 // localforage.setItem('prova', {v: 'Luca', ts: new Date()});
 // localforage.clear();
 // localforage.getItem('prova').then(function (item) {
@@ -13,6 +13,8 @@ import localforage from 'localforage';
 
 import {API} from './parameters.js';
 import {NavBar} from './navabar';
+
+const LocalStorage = {};
 
 const JwtCookie = {
     set: function (jwt) {
