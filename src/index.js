@@ -7,9 +7,9 @@ localforage.config({
 });
 // localforage.setItem('prova', {v: 'Luca', ts: new Date()});
 // localforage.clear();
-// localforage.getItem('prova').then(function (item) {
-//     console.log(item);
-// });
+localforage.getItem('prova').then(function (item) {
+    console.log('PROVA', item);
+});
 
 import {API} from './parameters.js';
 import {NavBar} from './navabar';
