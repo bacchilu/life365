@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {API} from './parameters.js';
+import {API} from '../parameters.js';
 
 const fetchWithAbort = function (v) {
     const controller = new AbortController();

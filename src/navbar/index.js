@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Search} from './search.js';
 
-export const NavBar = function ({categories}) {
+export const NavBar = function ({categories, user}) {
     // React.useEffect(function () {
     //     // https://stackoverflow.com/questions/23764863/how-to-close-an-open-collapsed-navbar-when-clicking-outside-of-the-navbar-elemen
     //     // $(document).ready(function () {
@@ -23,6 +23,15 @@ export const NavBar = function ({categories}) {
     //         document.removeEventListener('click', cb);
     //     };
     // }, []);
+
+    const onLogin = function (e) {
+        e.preventDefault();
+        console.log(user);
+    };
+
+    const onCart = function (e) {
+        e.preventDefault();
+    };
 
     const navItems = categories.map(function (item) {
         const onClick = function (e) {
@@ -71,14 +80,14 @@ export const NavBar = function ({categories}) {
                         <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">
                             <li className="nav-item col-6 col-lg-auto ms-auto">
                                 <a className="nav-link" href="#">
-                                    <button type="button" className="btn btn-light">
+                                    <button type="button" className="btn btn-light" onClick={onLogin}>
                                         Login <i className="bi bi-box-arrow-in-right"></i>
                                     </button>
                                 </a>
                             </li>
                             <li className="nav-item col-6 col-lg-auto">
                                 <a className="nav-link" href="#">
-                                    <button type="button" className="btn btn-light">
+                                    <button type="button" className="btn btn-light" onClick={onCart}>
                                         Cart <i className="bi bi-cart4"></i>
                                     </button>
                                 </a>
