@@ -1,6 +1,35 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {Search} from './search.js';
+
+const AuthModal = function (props) {
+    return (
+        <div className="modal fade" tabindex="-1" aria-hidden="true">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Modal title</h5>
+                        <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">...</div>
+                    <div className="modal-footer">
+                        <button className="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button className="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const openAuthModal = function () {
+    const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
+    myModal.show();
+    ReactDOM.render(<AuthModal />, document.getElementById('modal'));
+};
 
 export const NavBar = function ({categories, user}) {
     // React.useEffect(function () {
@@ -27,6 +56,7 @@ export const NavBar = function ({categories, user}) {
     const onLogin = function (e) {
         e.preventDefault();
         console.log(user);
+        openAuthModal();
     };
 
     const onCart = function (e) {
