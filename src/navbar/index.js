@@ -4,8 +4,15 @@ import ReactDOM from 'react-dom';
 import {Search} from './search.js';
 
 const AuthModal = function (props) {
-    return (
-        <div className="modal fade" tabindex="-1" aria-hidden="true">
+    const modalEl = React.useRef(null);
+    React.useEffect(function () {
+        console.log(modalEl.current);
+        const myModal = new bootstrap.Modal(modalEl.current, {});
+        myModal.show();
+    }, []);
+
+    return ReactDOM.createPortal(
+        <div ref={modalEl} className="modal fade" tabindex="-1" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -21,14 +28,15 @@ const AuthModal = function (props) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.getElementById('modal')
     );
 };
 
 const openAuthModal = function () {
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
     myModal.show();
-    ReactDOM.render(<AuthModal />, document.getElementById('modal'));
+    // ReactDOM.render(<AuthModal />, document.getElementById('modal'));
 };
 
 export const NavBar = function ({categories, user}) {
@@ -78,6 +86,7 @@ export const NavBar = function ({categories, user}) {
     });
     return (
         <React.Fragment>
+            <AuthModal />
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">
