@@ -3,40 +3,78 @@ import ReactDOM from 'react-dom';
 
 import {Search} from './search.js';
 
-const AuthModal = function (props) {
+const AuthForm = function ({isVisible}) {
+    const inputEl = React.useRef(null);
+    React.useEffect(
+        function () {
+            inputEl.current.focus();
+        },
+        [isVisible]
+    );
+
+    const onSubmit = function (e) {
+        e.preventDefault();
+        console.log('SUBMIT');
+    };
+
+    return (
+        <form onSubmit={onSubmit}>
+            <div className="modal-body">
+                <div className="form-floating mb-3">
+                    <input ref={inputEl} type="email" className="form-control" placeholder="Username" />
+                    <label>Username</label>
+                </div>
+                <div className="form-floating">
+                    <input type="password" className="form-control" placeholder="Password" />
+                    <label>Password</label>
+                </div>
+            </div>
+            <div className="modal-footer">
+                <button type="submit" className="btn btn-primary">
+                    Enter
+                </button>
+            </div>
+        </form>
+    );
+};
+
+const Modal = function ({user, opened, hide, Body, children}) {
+    // https://stackoverflow.com/questions/32370994/how-to-pass-props-to-this-props-children
     const modalEl = React.useRef(null);
+    const modalJs = React.useRef(null);
+    const [isVisible, setIsVisible] = React.useState(false);
     React.useEffect(function () {
-        console.log(modalEl.current);
-        const myModal = new bootstrap.Modal(modalEl.current, {});
-        myModal.show();
+        modalJs.current = new bootstrap.Modal(modalEl.current, {});
+        modalEl.current.addEventListener('hidden.bs.modal', function (event) {
+            hide();
+            setIsVisible(false);
+        });
+        modalEl.current.addEventListener('shown.bs.modal', function () {
+            setIsVisible(true);
+        });
     }, []);
+    React.useEffect(
+        function () {
+            console.log(user);
+            opened ? modalJs.current.show() : modalJs.current.hide();
+        },
+        [opened]
+    );
 
     return ReactDOM.createPortal(
-        <div ref={modalEl} className="modal fade" tabindex="-1" aria-hidden="true">
+        <div ref={modalEl} className="modal fade" tabIndex="-1" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Modal title</h5>
+                        <h5 className="modal-title">Authentication</h5>
                         <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div className="modal-body">...</div>
-                    <div className="modal-footer">
-                        <button className="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <button className="btn btn-primary">Save changes</button>
-                    </div>
+                    <Body isVisible={isVisible} />
                 </div>
             </div>
         </div>,
         document.getElementById('modal')
     );
-};
-
-const openAuthModal = function () {
-    const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {});
-    myModal.show();
-    // ReactDOM.render(<AuthModal />, document.getElementById('modal'));
 };
 
 export const NavBar = function ({categories, user}) {
@@ -61,10 +99,13 @@ export const NavBar = function ({categories, user}) {
     //     };
     // }, []);
 
+    const [modalOpened, setModalOpened] = React.useState(false);
+    const hideModal = function () {
+        setModalOpened(false);
+    };
     const onLogin = function (e) {
         e.preventDefault();
-        console.log(user);
-        openAuthModal();
+        setModalOpened(true);
     };
 
     const onCart = function (e) {
@@ -86,7 +127,9 @@ export const NavBar = function ({categories, user}) {
     });
     return (
         <React.Fragment>
-            <AuthModal />
+            <Modal user={user} opened={modalOpened} hide={hideModal} Body={AuthForm}>
+                <AuthForm />
+            </Modal>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">
