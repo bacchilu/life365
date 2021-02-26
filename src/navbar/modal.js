@@ -23,6 +23,10 @@ const Modal = function ({opened, hide, children}) {
         [opened]
     );
 
+    const childrenWithProps = React.Children.map(children, function (child) {
+        return React.cloneElement(child, {isVisible: isVisible});
+    });
+
     return ReactDOM.createPortal(
         <div ref={modalEl} className="modal fade" tabIndex="-1" aria-hidden="true">
             <div className="modal-dialog">
@@ -31,7 +35,7 @@ const Modal = function ({opened, hide, children}) {
                         <h5 className="modal-title">Authentication</h5>
                         <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {React.cloneElement(children, {isVisible: isVisible})}
+                    {childrenWithProps}
                 </div>
             </div>
         </div>,
