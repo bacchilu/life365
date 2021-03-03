@@ -2,42 +2,7 @@ import React from 'react';
 
 import {Search} from './search.js';
 import {useModal} from './modal.js';
-
-const AuthForm = function ({user, isVisible}) {
-    const inputEl = React.useRef(null);
-    React.useEffect(
-        function () {
-            inputEl.current.focus();
-            if (isVisible) console.log(user);
-        },
-        [isVisible]
-    );
-
-    const onSubmit = function (e) {
-        e.preventDefault();
-        console.log('SUBMIT');
-    };
-
-    return (
-        <form onSubmit={onSubmit}>
-            <div className="modal-body">
-                <div className="form-floating mb-3">
-                    <input ref={inputEl} type="email" className="form-control" placeholder="Username" />
-                    <label>Username</label>
-                </div>
-                <div className="form-floating">
-                    <input type="password" className="form-control" placeholder="Password" />
-                    <label>Password</label>
-                </div>
-            </div>
-            <div className="modal-footer">
-                <button type="submit" className="btn btn-primary">
-                    Enter
-                </button>
-            </div>
-        </form>
-    );
-};
+import {AuthForm} from './auth_form.js';
 
 export const NavBarButtons = function ({user}) {
     const [Modal, show] = useModal();
