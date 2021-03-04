@@ -1,5 +1,16 @@
 import React from 'react';
 
+import {API} from '../parameters.js';
+
+const Submit = function ({isRunning, ...props}) {
+    return (
+        <button type="submit" className="btn btn-primary" disabled={isRunning}>
+            {isRunning && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>}
+            {props.children}
+        </button>
+    );
+};
+
 export const AuthForm = function ({user, isVisible}) {
     const inputEl = React.useRef(null);
     React.useEffect(
@@ -11,15 +22,26 @@ export const AuthForm = function ({user, isVisible}) {
     );
     const [login, setLogin] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [hasError, setHasError] = React.useState(false);
+    const [isRunning, setIsRunning] = React.useState(false);
 
     const onChange = function (e) {
         if (e.target.name === 'login') setLogin(e.target.value);
         if (e.target.name === 'password') setPassword(e.target.value);
     };
 
-    const onSubmit = function (e) {
+    const onSubmit = async function (e) {
         e.preventDefault();
-        console.log('SUBMIT', login, password);
+        setIsRunning(true);
+        try {
+            const response = await fetch(`//${API}/auth/?login=${login}&password=${password}`);
+            const res = await response.json();
+            setHasError(false);
+        } catch (e) {
+            setHasError(true);
+        } finally {
+            setIsRunning(false);
+        }
     };
 
     return (
@@ -37,7 +59,7 @@ export const AuthForm = function ({user, isVisible}) {
                     />
                     <label>Username</label>
                 </div>
-                <div className="form-floating">
+                <div className="form-floating mb-2">
                     <input
                         type="password"
                         className="form-control"
@@ -49,11 +71,14 @@ export const AuthForm = function ({user, isVisible}) {
                     />
                     <label>Password</label>
                 </div>
+                {hasError && (
+                    <div className="alert alert-danger" role="alert">
+                        Authentication error!
+                    </div>
+                )}
             </div>
             <div className="modal-footer">
-                <button type="submit" className="btn btn-primary">
-                    Enter
-                </button>
+                <Submit isRunning={isRunning}>Enter</Submit>
             </div>
         </form>
     );
