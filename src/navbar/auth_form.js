@@ -11,12 +11,12 @@ const Submit = function ({isRunning, ...props}) {
     );
 };
 
-export const AuthForm = function ({user, isVisible}) {
+export const AuthForm = function ({user, onUserAuthenticated, isVisible}) {
     const inputEl = React.useRef(null);
     React.useEffect(
         function () {
             inputEl.current.focus();
-            if (isVisible) console.log(user);
+            // if (isVisible) console.log(user);
         },
         [isVisible]
     );
@@ -37,6 +37,7 @@ export const AuthForm = function ({user, isVisible}) {
             const response = await fetch(`//${API}/auth/?login=${login}&password=${password}`);
             const res = await response.json();
             setHasError(false);
+            onUserAuthenticated(res);
         } catch (e) {
             setHasError(true);
         } finally {

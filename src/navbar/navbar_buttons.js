@@ -5,7 +5,7 @@ import {useModal} from './modal.js';
 import {AuthForm} from './auth_form.js';
 
 export const NavBarButtons = function ({user}) {
-    const [Modal, show] = useModal();
+    const [Modal, show, hide] = useModal();
 
     const onLogin = function (e) {
         e.preventDefault();
@@ -14,11 +14,15 @@ export const NavBarButtons = function ({user}) {
     const onCart = function (e) {
         e.preventDefault();
     };
+    const onUserAuthenticated = function (u) {
+        console.log(u);
+        // hide();
+    };
 
     return (
         <React.Fragment>
             <Modal>
-                <AuthForm user={user} />
+                <AuthForm user={user} onUserAuthenticated={onUserAuthenticated} />
             </Modal>
             <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="container-fluid">

@@ -64,5 +64,6 @@ export const useModal = function () {
             );
         },
         show,
+        hide,
     ];
 };
