@@ -18,6 +18,10 @@ const Modal = function ({opened, hide, children}) {
     }, []);
     React.useEffect(
         function () {
+            // console.log(opened);
+            // const e = document.createEvent('hidden.bs.modal');
+            // modalEl.current.dispatchEvent(e);
+
             opened ? modalJs.current.show() : modalJs.current.hide();
         },
         [opened]

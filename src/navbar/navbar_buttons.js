@@ -16,7 +16,7 @@ export const NavBarButtons = function ({user}) {
     };
     const onUserAuthenticated = function (u) {
         console.log(u);
-        // hide();
+        hide();
     };
 
     return (
