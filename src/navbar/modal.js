@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// const modalDomEl = document.getElementById('modal');
+const modalDomEl = document.body.appendChild(document.createElement('div'));
+
 const Modal = function ({opened, hide, children}) {
     // https://stackoverflow.com/questions/32370994/how-to-pass-props-to-this-props-children
     const modalEl = React.useRef(null);
     const modalJs = React.useRef(null);
     const [isVisible, setIsVisible] = React.useState(false);
     React.useEffect(function () {
-        modalJs.current = new bootstrap.Modal(modalEl.current, {});
+        modalJs.current = new bootstrap.Modal(modalEl.current);
         modalEl.current.addEventListener('hidden.bs.modal', function (event) {
             hide();
             setIsVisible(false);
@@ -43,7 +46,7 @@ const Modal = function ({opened, hide, children}) {
                 </div>
             </div>
         </div>,
-        document.getElementById('modal')
+        modalDomEl
     );
 };
 
