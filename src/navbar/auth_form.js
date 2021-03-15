@@ -11,15 +11,11 @@ const Submit = function ({isRunning, ...props}) {
     );
 };
 
-export const AuthForm = function ({user, onUserAuthenticated, isVisible}) {
+export const AuthForm = function ({user, onUserAuthenticated}) {
     const inputEl = React.useRef(null);
-    React.useEffect(
-        function () {
-            inputEl.current.focus();
-            // if (isVisible) console.log(user);
-        },
-        [isVisible]
-    );
+    React.useEffect(function () {
+        inputEl.current.focus();
+    }, []);
     const [login, setLogin] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [hasError, setHasError] = React.useState(false);

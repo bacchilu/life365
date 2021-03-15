@@ -1,17 +1,14 @@
 import React from 'react';
 
 import {Search} from './search.js';
-import {useModal, Modal2} from './modal.js';
+import {Modal} from './modal.js';
 import {AuthForm} from './auth_form.js';
 
 export const NavBarButtons = function ({user}) {
-    const [Modal, show, hide] = useModal();
-
     const [modalOpened, setModalOpened] = React.useState(false);
 
     const onLogin = function (e) {
         e.preventDefault();
-        // show();
         setModalOpened(true);
     };
     const onCart = function (e) {
@@ -19,22 +16,18 @@ export const NavBarButtons = function ({user}) {
     };
     const onUserAuthenticated = function (u) {
         console.log(u);
-        // hide();
         setModalOpened(false);
     };
 
     return (
         <React.Fragment>
-            <Modal>
-                <AuthForm user={user} onUserAuthenticated={onUserAuthenticated} />
-            </Modal>
-            <Modal2 opened={modalOpened} setOpened={setModalOpened}>
+            <Modal opened={modalOpened} setOpened={setModalOpened}>
                 <div className="modal-header">
                     <h5 className="modal-title">Authentication</h5>
                     <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <AuthForm user={user} onUserAuthenticated={onUserAuthenticated} />
-            </Modal2>
+            </Modal>
             <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="container-fluid">
                     <div className="navbar-collapse collapse" id="navbarCollapse">
