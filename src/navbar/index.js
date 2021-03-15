@@ -2,7 +2,7 @@ import React from 'react';
 
 import {NavBarButtons} from './navbar_buttons.js';
 
-export const NavBar = function ({categories, user}) {
+export const NavBar = function ({categories}) {
     // React.useEffect(function () {
     //     // https://stackoverflow.com/questions/23764863/how-to-close-an-open-collapsed-navbar-when-clicking-outside-of-the-navbar-elemen
     //     // $(document).ready(function () {
@@ -65,7 +65,7 @@ export const NavBar = function ({categories, user}) {
                     </div>
                 </div>
             </nav>
-            <NavBarButtons user={user} />
+            <NavBarButtons />
         </React.Fragment>
     );
 };

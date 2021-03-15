@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {getAuthenticatedUser} from './auth.js';
-
 import {API} from './parameters.js';
 import {NavBar} from './navbar';
+import {UserProvider, useUser} from './user-context.js';
 
 const App = function (props) {
     const [categories, setCategories] = React.useState([]);
-    const [user, setUser] = React.useState(null);
+    const [user, setUser] = useUser(null);
     React.useEffect(async function () {
         const response = await fetch(`//${API}/warehouse/getCategories`);
         setCategories(await response.json());
@@ -42,7 +42,7 @@ const App = function (props) {
     return (
         <React.Fragment>
             <header>
-                <NavBar categories={categories} user={user} />
+                <NavBar categories={categories} />
             </header>
             <main>
                 <div className="container-fluid">
@@ -53,4 +53,9 @@ const App = function (props) {
     );
 };
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+    <UserProvider>
+        <App />
+    </UserProvider>,
+    document.getElementById('app')
+);

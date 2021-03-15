@@ -3,8 +3,10 @@ import React from 'react';
 import {Search} from './search.js';
 import {Modal} from './modal.js';
 import {AuthForm} from './auth_form.js';
+import {useUser} from '../user-context.js';
 
-export const NavBarButtons = function ({user}) {
+export const NavBarButtons = function (props) {
+    const [user, setUser] = useUser();
     const [modalOpened, setModalOpened] = React.useState(false);
 
     const onLogin = function (e) {
@@ -14,8 +16,8 @@ export const NavBarButtons = function ({user}) {
     const onCart = function (e) {
         e.preventDefault();
     };
-    const onUserAuthenticated = function (u) {
-        console.log(u);
+    const onUserAuthenticated = function (currentUser) {
+        setUser(currentUser);
         setModalOpened(false);
     };
 
@@ -26,7 +28,7 @@ export const NavBarButtons = function ({user}) {
                     <h5 className="modal-title">Authentication</h5>
                     <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <AuthForm user={user} onUserAuthenticated={onUserAuthenticated} />
+                <AuthForm onUserAuthenticated={onUserAuthenticated} />
             </Modal>
             <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="container-fluid">

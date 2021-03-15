@@ -11,7 +11,7 @@ const Submit = function ({isRunning, ...props}) {
     );
 };
 
-export const AuthForm = function ({user, onUserAuthenticated}) {
+export const AuthForm = function ({onUserAuthenticated}) {
     const inputEl = React.useRef(null);
     React.useEffect(function () {
         inputEl.current.focus();
