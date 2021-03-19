@@ -6,14 +6,15 @@ const LocalStorage = (function () {
     localforage.config({
         name: 'github.com/bacchilu/life365',
     });
-    // localforage.setItem('prova', {v: 'Luca', ts: new Date()});
-    // localforage.clear();
 
     return {
         get: async function () {
             const res = await localforage.getItem('user');
             if (res === null) return null;
-            if (res.ts < Date.now() - 1000 * 60 * 60 * 24) return null;
+            if (res.ts < Date.now() - 1000 * 60 * 60 * 24) {
+                localforage.clear();
+                return null;
+            }
             return res.value;
         },
         set: function (user) {
