@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {API} from '../parameters.js';
+import {setAuthenticatedUser} from '../auth.js';
 
 const Submit = function ({isRunning, ...props}) {
     return (
@@ -30,8 +30,7 @@ export const AuthForm = function ({onUserAuthenticated}) {
         e.preventDefault();
         setIsRunning(true);
         try {
-            const response = await fetch(`//${API}/auth/?login=${login}&password=${password}`);
-            const res = await response.json();
+            const res = await setAuthenticatedUser(login, password);
             setHasError(false);
             onUserAuthenticated(res);
         } catch (e) {

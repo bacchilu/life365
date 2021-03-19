@@ -16,7 +16,7 @@
         "@babel/preset-env": "^7.13.10",
         "@babel/preset-react": "^7.12.13",
         "babel-loader": "^8.2.2",
-        "webpack": "^5.25.1",
+        "webpack": "^5.26.3",
         "webpack-cli": "^4.5.0",
         "npm-check-updates": "^11.3.0"
     },
