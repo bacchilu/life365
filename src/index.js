@@ -8,7 +8,7 @@ import {UserProvider, useUser} from './user-context.js';
 
 const App = function (props) {
     const [categories, setCategories] = React.useState([]);
-    const [user, setUser] = useUser(null);
+    const [user, setUser] = useUser();
     React.useEffect(async function () {
         const response = await fetch(`//${API}/warehouse/getCategories`);
         setCategories(await response.json());

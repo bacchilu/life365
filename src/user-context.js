@@ -11,7 +11,7 @@ export const useUser = function () {
 };
 
 export const UserProvider = function (props) {
-    const [user, setUser] = React.useState(null);
+    const [user, setUser] = React.useState(undefined);
     const value = React.useMemo(
         function () {
             return [user, setUser];
