@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {setAuthenticatedUser} from '../auth.js';
+import {setAuthenticatedUser} from '../../auth.js';
 
 const Submit = function ({isRunning, ...props}) {
     return (

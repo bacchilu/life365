@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {Search} from './search.js';
-import {Modal} from './modal.js';
-import {AuthForm} from './auth_form.js';
+import {Modal} from '../libs/modal.js';
 import {useUser} from '../user-context.js';
 import {logout} from '../auth.js';
+import {AuthModal, UserModal} from './modals';
 
 const LoginButton = function ({user, onLogin, onUser}) {
     if (user === undefined)
@@ -31,37 +31,6 @@ const LoginButton = function ({user, onLogin, onUser}) {
                 </strong>
             </button>
         </a>
-    );
-};
-
-const AuthModal = function ({onUserAuthenticated}) {
-    return (
-        <React.Fragment>
-            <div className="modal-header">
-                <h5 className="modal-title">Authentication</h5>
-                <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <AuthForm onUserAuthenticated={onUserAuthenticated} />
-        </React.Fragment>
-    );
-};
-
-const UserModal = function ({user, onLogout}) {
-    return (
-        <React.Fragment>
-            <div className="modal-header">
-                <h5 className="modal-title">User</h5>
-                <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-                <p>{user.name}</p>
-            </div>
-            <div className="modal-footer">
-                <button type="submit" className="btn btn-danger" onClick={onLogout}>
-                    Logout
-                </button>
-            </div>
-        </React.Fragment>
     );
 };
 
