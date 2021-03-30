@@ -36,7 +36,7 @@ export const AuthForm = function ({onUserAuthenticated}) {
         } catch (e) {
             setHasError(true);
         } finally {
-            setIsRunning(false);
+            // setIsRunning(false);
         }
     };
 

@@ -85,12 +85,12 @@ export const NavBarButtons = function (props) {
 
     const onUserAuthenticated = function (currentUser) {
         setUser(currentUser);
-        setModalOpened(false);
+        // setModalOpened(false);
     };
 
     const onLogout = function () {
         setUser(null);
-        setModalOpened(false);
+        // setModalOpened(false);
         logout();
     };
 
