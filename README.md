@@ -1,2 +1,3 @@
 # life365
-Frontend for life365 ecommerce
+
+A React frontend for life365 ecommerce, based on Bootstrap 5.
