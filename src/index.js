@@ -22,7 +22,7 @@ const App = function (props) {
                     className="card text-center border-light shadow p-3 mb-5 bg-white rounded"
                     style={{width: '18rem'}}
                 >
-                    <a href={`/c#/${item['slug']}`} className="text-decoration-none">
+                    <a href={`c#/${item['slug']}`} className="text-decoration-none">
                         <div style={{height: '13rem'}}>
                             <img
                                 src={item['image']}
