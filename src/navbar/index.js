@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {NavBarButtons} from './navbar_buttons.js';
+import {Link} from 'react-router-dom';
 
 export const NavBar = function ({categories}) {
     // React.useEffect(function () {
@@ -27,9 +28,9 @@ export const NavBar = function ({categories}) {
     const navItems = categories.map(function (item) {
         return (
             <li key={item['ID_Categoria']} className="nav-item col-6 col-lg-auto">
-                <a className="nav-link" href={`c#/${item['slug']}`}>
+                <Link className="nav-link" to={`/c/${item['slug']}`}>
                     {item['Descrizione']}
-                </a>
+                </Link>
             </li>
         );
     });

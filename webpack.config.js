@@ -4,7 +4,6 @@ module.exports = function (env) {
     const res = {
         entry: {
             app: './src/index.js',
-            c: './src/c.js',
         },
         output: {
             filename: '[name].js',

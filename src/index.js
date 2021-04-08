@@ -5,6 +5,12 @@ import {getAuthenticatedUser} from './auth.js';
 import {API} from './parameters.js';
 import {NavBar} from './navbar';
 import {UserProvider, useUser} from './user-context.js';
+import {HashRouter as Router, Switch, Route, Link, useParams} from 'react-router-dom';
+
+const CategoryPanel = function (props) {
+    const {category_id} = useParams();
+    return `CATEGORY: ${category_id}`;
+};
 
 const App = function (props) {
     const [categories, setCategories] = React.useState([]);
@@ -22,7 +28,7 @@ const App = function (props) {
                     className="card text-center border-light shadow p-3 mb-5 bg-white rounded"
                     style={{width: '18rem'}}
                 >
-                    <a href={`c#/${item['slug']}`} className="text-decoration-none">
+                    <Link to={`/c/${item['slug']}`} className="text-decoration-none">
                         <div style={{height: '13rem'}}>
                             <img
                                 src={item['image']}
@@ -34,22 +40,29 @@ const App = function (props) {
                         <div className="card-body">
                             <h5 className="card-title text-dark">{item['Descrizione']}</h5>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </div>
         );
     });
     return (
-        <React.Fragment>
+        <Router>
             <header>
                 <NavBar categories={categories} />
             </header>
             <main>
                 <div className="container-fluid">
-                    <div className="row row-cols-1 row-cols-md-4 g-4">{cards}</div>
+                    <Switch>
+                        <Route path="/c/:category_id">
+                            <CategoryPanel />
+                        </Route>
+                        <Route path="/">
+                            <div className="row row-cols-1 row-cols-md-4 g-4">{cards}</div>
+                        </Route>
+                    </Switch>
                 </div>
             </main>
-        </React.Fragment>
+        </Router>
     );
 };
 
