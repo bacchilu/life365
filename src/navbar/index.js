@@ -28,7 +28,11 @@ export const NavBar = function ({categories}) {
     const navItems = categories.map(function (item) {
         return (
             <li key={item['ID_Categoria']} className="nav-item col-6 col-lg-auto">
-                <NavLink className="nav-link" activeClassName="active" to={`/c/${item['slug']}`}>
+                <NavLink
+                    className="nav-link"
+                    activeClassName="active"
+                    to={`/c/${item['slug']}-${item['ID_Categoria']}`}
+                >
                     {item['Descrizione']}
                 </NavLink>
             </li>

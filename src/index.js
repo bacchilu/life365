@@ -6,10 +6,20 @@ import {API} from './parameters.js';
 import {NavBar} from './navbar';
 import {UserProvider, useUser} from './user-context.js';
 import {HashRouter as Router, Switch, Route, Link, useParams} from 'react-router-dom';
+import {TreeMenu} from './tree_menu.js';
 
 const CategoryPanel = function (props) {
     const {category_id} = useParams();
-    return `CATEGORY: ${category_id}`;
+    const id = parseInt(category_id.split('-').pop());
+
+    return (
+        <div className="row">
+            <div className="col-sm-2">
+                <TreeMenu id={id} />
+            </div>
+            <div className="col-sm-10">{`CATEGORY: ${category_id}`}</div>
+        </div>
+    );
 };
 
 const App = function (props) {
@@ -28,7 +38,7 @@ const App = function (props) {
                     className="card text-center border-light shadow p-3 mb-5 bg-white rounded"
                     style={{width: '18rem'}}
                 >
-                    <Link to={`/c/${item['slug']}`} className="text-decoration-none">
+                    <Link to={`/c/${item['slug']}-${item['ID_Categoria']}`} className="text-decoration-none">
                         <div style={{height: '13rem'}}>
                             <img
                                 src={item['image']}
