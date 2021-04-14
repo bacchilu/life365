@@ -38,14 +38,14 @@ export const NavBar = function ({categories}) {
         <React.Fragment>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/">
+                    <Link className="navbar-brand" to="/">
                         <img
                             className="brand-img"
                             alt="Brand"
                             src="https://static.life365.eu/common/template_01/images/life365-09.gif"
                             style={{width: '200px'}}
                         />
-                    </a>
+                    </Link>
                     <button
                         className="navbar-toggler"
                         type="button"
