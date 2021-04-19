@@ -1,67 +1,63 @@
 import React from 'react';
 
-export const TreeMenu = function ({id}) {
-    console.log(id);
+import {API} from './parameters.js';
 
+const useTree = function (id) {
+    const [data, setData] = React.useState(null);
+    React.useEffect(
+        async function () {
+            const response = await fetch(`//${API}/warehouse/tree/${id}`);
+            setData(await response.json());
+        },
+        [id]
+    );
+
+    return data;
+};
+
+export const TreeMenu = function ({id}) {
+    const data = useTree(id);
+
+    if (data === null) return null;
+    const items = data.map(function (item) {
+        console.log(item);
+        return (
+            <div key={item.id} className="accordion-item">
+                <h2 className="accordion-header">
+                    <button
+                        className="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#collapse_${item.id}`}
+                        aria-controls={`collapse_${item.id}`}
+                    >
+                        {item.name.en}
+                    </button>
+                </h2>
+                <div id={`collapse_${item.id}`} className="accordion-collapse collapse" data-bs-parent="#accordionTree">
+                    <div className="accordion-body">
+                        <div className="list-group">
+                            <a href="#" className="list-group-item list-group-item-action active" aria-current="true">
+                                The current link item
+                            </a>
+                            <a href="#" className="list-group-item list-group-item-action">
+                                A second link item
+                            </a>
+                            <a href="#" className="list-group-item list-group-item-action">
+                                A third link item
+                            </a>
+                            <a href="#" className="list-group-item list-group-item-action">
+                                A fourth link item
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    });
     return (
-        <div className="accordion" id="accordionExample">
-            <div className="accordion-item">
-                <h2 className="accordion-header">
-                    <button
-                        className="accordion-button"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="true"
-                        aria-controls="collapseOne"
-                    >
-                        Accordion Item #1
-                    </button>
-                </h2>
-                <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                    <div className="accordion-body">
-                        <strong>This is the first item's accordion body.</strong>
-                    </div>
-                </div>
-            </div>
-            <div className="accordion-item">
-                <h2 className="accordion-header">
-                    <button
-                        className="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo"
-                        aria-expanded="false"
-                        aria-controls="collapseTwo"
-                    >
-                        Accordion Item #2
-                    </button>
-                </h2>
-                <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div className="accordion-body">
-                        <strong>This is the second item's accordion body.</strong>
-                    </div>
-                </div>
-            </div>
-            <div className="accordion-item">
-                <h2 className="accordion-header">
-                    <button
-                        className="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree"
-                        aria-expanded="false"
-                        aria-controls="collapseThree"
-                    >
-                        Accordion Item #3
-                    </button>
-                </h2>
-                <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div className="accordion-body">
-                        <strong>This is the third item's accordion body.</strong>
-                    </div>
-                </div>
-            </div>
+        <div className="accordion" id="accordionTree">
+            {items}
         </div>
     );
 };
