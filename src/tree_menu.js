@@ -1,6 +1,14 @@
 import React from 'react';
+import {NavLink, useRouteMatch} from 'react-router-dom';
 
 import {API} from './parameters.js';
+
+const toslug = function (t) {
+    return t
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '');
+};
 
 const useTree = function (id) {
     const [data, setData] = React.useState(null);
@@ -16,11 +24,25 @@ const useTree = function (id) {
 };
 
 export const TreeMenu = function ({id}) {
+    const match = useRouteMatch();
     const data = useTree(id);
 
     if (data === null) return null;
     const items = data.map(function (item) {
-        console.log(item);
+        const items = item.children.map(function (item) {
+            return (
+                <NavLink
+                    key={item.id}
+                    to={`${match.url}/${toslug(item.name.en)}-${item.id}`}
+                    activeClassName="active"
+                    className="list-group-item list-group-item-action"
+                    aria-current="true"
+                >
+                    {item.name.en}
+                </NavLink>
+            );
+        });
+
         return (
             <div key={item.id} className="accordion-item">
                 <h2 className="accordion-header">
@@ -36,20 +58,7 @@ export const TreeMenu = function ({id}) {
                 </h2>
                 <div id={`collapse_${item.id}`} className="accordion-collapse collapse" data-bs-parent="#accordionTree">
                     <div className="accordion-body">
-                        <div className="list-group">
-                            <a href="#" className="list-group-item list-group-item-action active" aria-current="true">
-                                The current link item
-                            </a>
-                            <a href="#" className="list-group-item list-group-item-action">
-                                A second link item
-                            </a>
-                            <a href="#" className="list-group-item list-group-item-action">
-                                A third link item
-                            </a>
-                            <a href="#" className="list-group-item list-group-item-action">
-                                A fourth link item
-                            </a>
-                        </div>
+                        <div className="list-group list-group-flush">{items}</div>
                     </div>
                 </div>
             </div>

@@ -1,15 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {HashRouter as Router, Switch, Route, Link, useParams, useRouteMatch} from 'react-router-dom';
 
 import {getAuthenticatedUser} from './auth.js';
 import {API} from './parameters.js';
 import {NavBar} from './navbar';
 import {UserProvider, useUser} from './user-context.js';
-import {HashRouter as Router, Switch, Route, Link, useParams} from 'react-router-dom';
 import {TreeMenu} from './tree_menu.js';
+
+const Subcategory = function (props) {
+    const {subcategory_id} = useParams();
+
+    const id = parseInt(subcategory_id.split('-').pop());
+
+    return <p>{`SUBCATEGORY: ${subcategory_id}`}</p>;
+};
 
 const CategoryPanel = function (props) {
     const {category_id} = useParams();
+    const match = useRouteMatch();
+
     const id = parseInt(category_id.split('-').pop());
 
     return (
@@ -17,7 +27,16 @@ const CategoryPanel = function (props) {
             <div className="col-sm-2">
                 <TreeMenu id={id} />
             </div>
-            <div className="col-sm-10">{`CATEGORY: ${category_id}`}</div>
+            <div className="col-sm-10">
+                <Switch>
+                    <Route path={`${match.path}/:subcategory_id`}>
+                        <Subcategory />
+                    </Route>
+                    <Route path={match.path}>
+                        <p>{`ROOT CATEGORY: ${category_id}`}</p>
+                    </Route>
+                </Switch>
+            </div>
         </div>
     );
 };
