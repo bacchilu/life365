@@ -25,12 +25,19 @@ const Subcategory = function (props) {
     if (products === null) return null;
     const items = products.map(function (item) {
         return (
-            <div key={item.id} className="col">
-                <div className="card">
-                    <img src={item.photos[0]} className="card-img-top" style={{maxHeight: '100px'}} />
-                    <div className="card-body">
-                        <h5 className="card-title">{item.code_simple}</h5>
-                        <p className="card-text">{item.title.en}</p>
+            <div key={item.id} className="card mb-1">
+                <div className="row g-0">
+                    <div className="col-md-2 text-center align-middle">
+                        <img src={item.photos[0]} className="img-fluid" style={{maxHeight: '100px'}} />
+                    </div>
+                    <div className="col-md-10">
+                        <div className="card-body">
+                            <h5 className="card-title">{item.code_simple}</h5>
+                            <p className="card-text">{item.title.en}</p>
+                            {/* <p className="card-text">
+                                <small className="text-muted">Last updated 3 mins ago</small>
+                            </p> */}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,7 +46,7 @@ const Subcategory = function (props) {
     return (
         <React.Fragment>
             <p>{`SUBCATEGORY: ${subcategory_id}`}</p>
-            <div className="row row-cols-1 row-cols-md-2 g-4">{items}</div>
+            <div className="row row-cols-1 m-1">{items}</div>
         </React.Fragment>
     );
 };
