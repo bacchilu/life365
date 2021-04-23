@@ -8,6 +8,7 @@ const useProducts = function (id) {
     const [data, setData] = React.useState(null);
     React.useEffect(
         async function () {
+            setData(null);
             const response = await fetch(`//${API}/products/level_3/${id}`);
             setData(await response.json());
         },
@@ -22,7 +23,12 @@ const Subcategory = function (props) {
     const id = parseInt(subcategory_id.split('-').pop());
     const products = useProducts(id);
 
-    if (products === null) return null;
+    if (products === null)
+        return (
+            <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        );
     const items = products.map(function (item) {
         return (
             <div key={item.id} className="card mb-1">
@@ -45,7 +51,6 @@ const Subcategory = function (props) {
     });
     return (
         <React.Fragment>
-            <p>{`SUBCATEGORY: ${subcategory_id}`}</p>
             <div className="row row-cols-1 m-1">{items}</div>
         </React.Fragment>
     );
