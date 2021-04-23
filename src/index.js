@@ -8,12 +8,20 @@ import {NavBar} from './navbar';
 import {UserProvider, useUser} from './user-context.js';
 import {CategoryPanel} from './category.js';
 
-const App = function (props) {
+const useCategories = function () {
     const [categories, setCategories] = React.useState([]);
-    const [user, setUser] = useUser();
     React.useEffect(async function () {
         const response = await fetch(`//${API}/warehouse/getCategories`);
         setCategories(await response.json());
+    }, []);
+
+    return categories;
+};
+
+const App = function (props) {
+    const categories = useCategories();
+    const [user, setUser] = useUser();
+    React.useEffect(async function () {
         setUser(await getAuthenticatedUser());
     }, []);
 
