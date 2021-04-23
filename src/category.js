@@ -1,35 +1,33 @@
 import React from 'react';
 import {Switch, Route, useParams, useRouteMatch} from 'react-router-dom';
+import useSWR from 'swr';
 
 import {TreeMenu} from './tree_menu.js';
 import {API} from './parameters.js';
 
 const useProducts = function (id) {
-    const [data, setData] = React.useState(null);
-    React.useEffect(
-        async function () {
-            setData(null);
-            const response = await fetch(`//${API}/products/level_3/${id}`);
-            setData(await response.json());
-        },
-        [id]
-    );
-
-    return data;
+    return useSWR(`//${API}/products/level_3/${id}`);
 };
 
 const Subcategory = function (props) {
     const {subcategory_id} = useParams();
     const id = parseInt(subcategory_id.split('-').pop());
-    const products = useProducts(id);
+    const {data, error} = useProducts(id);
 
-    if (products === null)
+    if (error !== undefined)
+        return (
+            <div className="alert alert-danger" role="alert">
+                Error!
+            </div>
+        );
+    if (data === undefined)
         return (
             <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
             </div>
         );
-    const items = products.map(function (item) {
+
+    const items = data.map(function (item) {
         return (
             <div key={item.id} className="card mb-1">
                 <div className="row g-0">
@@ -40,9 +38,11 @@ const Subcategory = function (props) {
                         <div className="card-body">
                             <h5 className="card-title">{item.code_simple}</h5>
                             <p className="card-text">{item.title.en}</p>
-                            {/* <p className="card-text">
-                                <small className="text-muted">Last updated 3 mins ago</small>
-                            </p> */}
+                            <p className="card-text">
+                                {(item.stock === 0 && <small className="text-danger">not available</small>) || (
+                                    <small className="text-muted">{item.stock} available</small>
+                                )}
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink, useRouteMatch} from 'react-router-dom';
+import useSWR from 'swr';
 
 import {API} from './parameters.js';
 
@@ -11,23 +12,21 @@ const toslug = function (t) {
 };
 
 const useTree = function (id) {
-    const [data, setData] = React.useState(null);
-    React.useEffect(
-        async function () {
-            const response = await fetch(`//${API}/warehouse/tree/${id}`);
-            setData(await response.json());
-        },
-        [id]
-    );
-
-    return data;
+    return useSWR(`//${API}/warehouse/tree/${id}`);
 };
 
 export const TreeMenu = function ({id}) {
     const match = useRouteMatch();
-    const data = useTree(id);
+    const {data} = useTree(id);
 
-    if (data === null) return null;
+    if (data === undefined)
+        return (
+            <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        );
+    if (data === undefined) return null;
+
     const items = data.map(function (item) {
         const items = item.children.map(function (item) {
             return (
