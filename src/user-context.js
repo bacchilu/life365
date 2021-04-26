@@ -20,3 +20,8 @@ export const UserProvider = function (props) {
     );
     return <UserContext.Provider value={value} {...props} />;
 };
+
+// import useSWR from 'swr';
+// const {data, error} = useSWR('auth', function (...args) {
+//     return getAuthenticatedUser();
+// });
