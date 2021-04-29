@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useUser} from '../../user_hook.js';
+import {useUser} from '../../auth.js';
 import {AuthForm} from './auth_form.js';
 
 export const AuthModal = function (props) {

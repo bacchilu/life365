@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useUser} from '../../user_hook.js';
+import {useUser} from '../../auth.js';
 
 const Submit = function ({isRunning, ...props}) {
     return (

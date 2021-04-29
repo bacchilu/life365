@@ -1,4 +1,5 @@
 import localforage from 'localforage';
+import useSWR from 'swr';
 
 import {API} from './parameters.js';
 
@@ -26,17 +27,36 @@ const LocalStorage = (function () {
     };
 })();
 
-export const checkAuthentication = function () {
+const checkAuthentication = function () {
     return LocalStorage.get();
 };
 
-export const login = async function (login, password) {
+const login = async function (login, password) {
     const res = await fetch(`${API}/auth/?login=${login}&password=${password}`);
     const user = await res.json();
     LocalStorage.set(user);
     return user;
 };
 
-export const logout = function () {
+const logout = function () {
     return LocalStorage.clear();
+};
+
+export const useUser = function () {
+    const {data, error, mutate} = useSWR('auth', function () {
+        return checkAuthentication();
+    });
+
+    return {
+        data,
+        error,
+        Methods: {
+            login: async function (username, password) {
+                return mutate(login(username, password));
+            },
+            logout: function () {
+                mutate(logout());
+            },
+        },
+    };
 };

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Search} from './search.js';
 import {Modal} from '../libs/modal.js';
-import {useUser} from '../user_hook.js';
+import {useUser} from '../auth.js';
 import {AuthModal, UserModal} from './modals';
 
 const LoginButton = function ({user, onLogin, onUser}) {
