@@ -32,12 +32,11 @@ export const AuthForm = function () {
         e.preventDefault();
         setIsRunning(true);
         try {
+            setHasError(false);
             const res = await Methods.login(login, password);
-            // setHasError(false);
         } catch (e) {
             setHasError(true);
-        } finally {
-            // setIsRunning(false);
+            setIsRunning(false);
         }
     };
 

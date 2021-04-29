@@ -2,19 +2,19 @@
 
 import useSWR from 'swr';
 
-import {getAuthenticatedUser, setAuthenticatedUser, logout} from './auth.js';
+import {checkAuthentication, login, logout} from './auth.js';
 
 export const useUser = function () {
     const {data, error, mutate} = useSWR('auth', function () {
-        return getAuthenticatedUser();
+        return checkAuthentication();
     });
 
     return {
         data,
         error,
         Methods: {
-            login: async function (login, password) {
-                return mutate(setAuthenticatedUser(login, password));
+            login: async function (username, password) {
+                return mutate(login(username, password));
             },
             logout: function () {
                 mutate(logout());
