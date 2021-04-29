@@ -14,14 +14,10 @@ export const useUser = function () {
         error,
         Methods: {
             login: async function (login, password) {
-                const res = await setAuthenticatedUser(login, password);
-                mutate(res, false);
-                return res;
-                // mutate(setAuthenticatedUser(login, password));
+                return mutate(setAuthenticatedUser(login, password));
             },
             logout: function () {
-                mutate(null, false);
-                logout();
+                mutate(logout());
             },
         },
     };

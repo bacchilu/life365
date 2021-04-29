@@ -18,10 +18,10 @@ const LocalStorage = (function () {
             return res.value;
         },
         set: function (user) {
-            localforage.setItem('user', {value: user, ts: new Date()});
+            return localforage.setItem('user', {value: user, ts: new Date()});
         },
         clear: function () {
-            localforage.clear();
+            return localforage.clear();
         },
     };
 })();
@@ -74,7 +74,7 @@ const auth = async function (username, password) {
 //     JwtCookie.remove();
 // };
 
-export const getAuthenticatedUser = async function () {
+export const getAuthenticatedUser = function () {
     return LocalStorage.get();
 };
 
@@ -86,5 +86,5 @@ export const setAuthenticatedUser = async function (login, password) {
 };
 
 export const logout = function () {
-    LocalStorage.clear();
+    return LocalStorage.clear();
 };
