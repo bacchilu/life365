@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Search} from './search.js';
 import {Modal} from '../libs/modal.js';
-import {useUser} from '../user-context.js';
+import {useUser, useUser2} from '../user-context.js';
 import {logout} from '../auth.js';
 import {AuthModal, UserModal} from './modals';
 
@@ -38,6 +38,9 @@ export const NavBarButtons = function (props) {
     const [user, setUser] = useUser();
     const [modalOpened, setModalOpened] = React.useState(false);
 
+    // const {data, Methods} = useUser2();
+    // console.log('MODAL', data);
+
     const onLogin = function (e) {
         e.preventDefault();
         setModalOpened(true);
@@ -59,6 +62,7 @@ export const NavBarButtons = function (props) {
 
     const onLogout = function () {
         setUser(null);
+        // Methods.logout();
         // setModalOpened(false);
         logout();
     };

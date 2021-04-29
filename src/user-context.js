@@ -21,7 +21,26 @@ export const UserProvider = function (props) {
     return <UserContext.Provider value={value} {...props} />;
 };
 
-// import useSWR from 'swr';
-// const {data, error} = useSWR('auth', function (...args) {
-//     return getAuthenticatedUser();
-// });
+import useSWR from 'swr';
+import {getAuthenticatedUser, setAuthenticatedUser} from './auth.js';
+export const useUser2 = function () {
+    const {data, error, mutate} = useSWR('auth', function () {
+        return getAuthenticatedUser();
+    });
+
+    return {
+        data,
+        error,
+        Methods: {
+            login: async function (login, password) {
+                const res = await setAuthenticatedUser(login, password);
+                mutate(res, false);
+                return res;
+                // mutate(setAuthenticatedUser(login, password));
+            },
+            logout: function () {
+                mutate(null, false);
+            },
+        },
+    };
+};
