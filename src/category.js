@@ -4,15 +4,18 @@ import useSWR from 'swr';
 
 import {TreeMenu} from './tree_menu.js';
 import {API} from './parameters.js';
+import {useUser} from './auth.js';
 
-const useProducts = function (id) {
-    return useSWR(`//${API}/products/level_3/${id}`);
+const useProducts = function (id, user) {
+    const baseUrl = `//${API}/products/level_3/${id}`;
+    return useSWR(user === null ? baseUrl : `${baseUrl}?jwt=${user.jwt}`);
 };
 
 const Subcategory = function (props) {
     const {subcategory_id} = useParams();
     const id = parseInt(subcategory_id.split('-').pop());
-    const {data, error} = useProducts(id);
+    const {data: user} = useUser();
+    const {data, error} = useProducts(id, user);
 
     if (error !== undefined)
         return (
