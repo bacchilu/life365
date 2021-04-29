@@ -2,8 +2,7 @@ import React from 'react';
 
 import {Search} from './search.js';
 import {Modal} from '../libs/modal.js';
-import {useUser, useUser2} from '../user-context.js';
-import {logout} from '../auth.js';
+import {useUser} from '../user_hook.js';
 import {AuthModal, UserModal} from './modals';
 
 const LoginButton = function ({user, onLogin, onUser}) {
@@ -35,11 +34,8 @@ const LoginButton = function ({user, onLogin, onUser}) {
 };
 
 export const NavBarButtons = function (props) {
-    const [user, setUser] = useUser();
+    const {data: user} = useUser();
     const [modalOpened, setModalOpened] = React.useState(false);
-
-    // const {data, Methods} = useUser2();
-    // console.log('MODAL', data);
 
     const onLogin = function (e) {
         e.preventDefault();
@@ -55,24 +51,10 @@ export const NavBarButtons = function (props) {
         e.preventDefault();
     };
 
-    const onUserAuthenticated = function (currentUser) {
-        setUser(currentUser);
-        // setModalOpened(false);
-    };
-
-    const onLogout = function () {
-        setUser(null);
-        // Methods.logout();
-        // setModalOpened(false);
-        logout();
-    };
-
     return (
         <React.Fragment>
             <Modal opened={modalOpened} setOpened={setModalOpened}>
-                {(user === null && <AuthModal onUserAuthenticated={onUserAuthenticated} />) || (
-                    <UserModal user={user} onLogout={onLogout} />
-                )}
+                {(user === null && <AuthModal />) || <UserModal />}
             </Modal>
             <nav className="navbar navbar-expand-lg navbar-light">
                 <div className="container-fluid">

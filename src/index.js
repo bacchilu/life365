@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {HashRouter as Router, Switch, Route, Link} from 'react-router-dom';
 
-import {getAuthenticatedUser} from './auth.js';
 import {API} from './parameters.js';
 import {NavBar} from './navbar';
-import {UserProvider, useUser, useUser2} from './user-context.js';
 import {CategoryPanel} from './category.js';
 
 const useCategories = function () {
@@ -20,13 +18,6 @@ const useCategories = function () {
 
 const App = function (props) {
     const categories = useCategories();
-    const [user, setUser] = useUser();
-    React.useEffect(async function () {
-        setUser(await getAuthenticatedUser());
-    }, []);
-
-    // const {data} = useUser2();
-    // console.log('INDEX', data);
 
     const cards = categories.map(function (item) {
         return (
@@ -73,9 +64,4 @@ const App = function (props) {
     );
 };
 
-ReactDOM.render(
-    <UserProvider>
-        <App />
-    </UserProvider>,
-    document.getElementById('app')
-);
+ReactDOM.render(<App />, document.getElementById('app'));

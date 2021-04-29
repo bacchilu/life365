@@ -1,20 +1,27 @@
 import React from 'react';
 
+import {useUser} from '../../user_hook.js';
 import {AuthForm} from './auth_form.js';
 
-export const AuthModal = function ({onUserAuthenticated}) {
+export const AuthModal = function (props) {
     return (
         <React.Fragment>
             <div className="modal-header">
                 <h5 className="modal-title">Authentication</h5>
                 <button className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <AuthForm onUserAuthenticated={onUserAuthenticated} />
+            <AuthForm />
         </React.Fragment>
     );
 };
 
-export const UserModal = function ({user, onLogout}) {
+export const UserModal = function (props) {
+    const {data: user, Methods} = useUser();
+
+    const onLogout = function () {
+        Methods.logout();
+    };
+
     return (
         <React.Fragment>
             <div className="modal-header">

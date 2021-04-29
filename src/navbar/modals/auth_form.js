@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {setAuthenticatedUser} from '../../auth.js';
-import {useUser2} from '../../user-context.js';
+import {useUser} from '../../user_hook.js';
 
 const Submit = function ({isRunning, ...props}) {
     return (
@@ -12,7 +11,7 @@ const Submit = function ({isRunning, ...props}) {
     );
 };
 
-export const AuthForm = function ({onUserAuthenticated}) {
+export const AuthForm = function () {
     const inputEl = React.useRef(null);
     React.useEffect(function () {
         inputEl.current.focus();
@@ -22,8 +21,7 @@ export const AuthForm = function ({onUserAuthenticated}) {
     const [hasError, setHasError] = React.useState(false);
     const [isRunning, setIsRunning] = React.useState(false);
 
-    // const {data, Methods} = useUser2();
-    // console.log('MODAL-FORM', data);
+    const {Methods} = useUser();
 
     const onChange = function (e) {
         if (e.target.name === 'login') setLogin(e.target.value);
@@ -32,12 +30,10 @@ export const AuthForm = function ({onUserAuthenticated}) {
 
     const onSubmit = async function (e) {
         e.preventDefault();
-        // Methods.login(login, password);
         setIsRunning(true);
         try {
-            const res = await setAuthenticatedUser(login, password);
-            setHasError(false);
-            onUserAuthenticated(res);
+            const res = await Methods.login(login, password);
+            // setHasError(false);
         } catch (e) {
             setHasError(true);
         } finally {
