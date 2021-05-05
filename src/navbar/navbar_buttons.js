@@ -1,5 +1,4 @@
 import React from 'react';
-import useSWR from 'swr';
 
 import {Search} from './search.js';
 import {Modal} from '../libs/modal.js';

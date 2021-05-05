@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const modalDomEl = document.body.appendChild(document.createElement('div'));
 
-export const Modal = function ({opened, setOpened, children}) {
+export const Modal = function ({opened, setOpened, children, size = null}) {
     const [isShown, setIsShown] = React.useState(false);
     const modalEl = React.useRef(null);
     const modalJs = React.useRef(null);
@@ -30,7 +30,7 @@ export const Modal = function ({opened, setOpened, children}) {
 
     return ReactDOM.createPortal(
         <div ref={modalEl} className="modal fade" tabIndex="-1" aria-hidden="true">
-            <div className="modal-dialog">
+            <div className={`modal-dialog ${size}`}>
                 <div className="modal-content">{isShown ? children : null}</div>
             </div>
         </div>,
