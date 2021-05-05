@@ -1,9 +1,11 @@
 import React from 'react';
+import useSWR from 'swr';
 
 import {Search} from './search.js';
 import {Modal} from '../libs/modal.js';
 import {useUser} from '../auth.js';
 import {AuthModal, UserModal} from './modals';
+import {CartButton} from './cart.js';
 
 const LoginButton = function ({user, onLogin, onUser}) {
     if (user === undefined)
@@ -47,10 +49,6 @@ export const NavBarButtons = function (props) {
         setModalOpened(true);
     };
 
-    const onCart = function (e) {
-        e.preventDefault();
-    };
-
     return (
         <React.Fragment>
             <Modal opened={modalOpened} setOpened={setModalOpened}>
@@ -64,11 +62,7 @@ export const NavBarButtons = function (props) {
                                 <LoginButton user={user} onLogin={onLogin} onUser={onUser} />
                             </li>
                             <li className="nav-item col-6 col-lg-auto">
-                                <a className="nav-link" href="#">
-                                    <button type="button" className="btn btn-light" onClick={onCart}>
-                                        Cart <i className="bi bi-cart4"></i>
-                                    </button>
-                                </a>
+                                <CartButton />
                             </li>
                         </ul>
                     </div>

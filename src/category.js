@@ -5,11 +5,7 @@ import useSWR from 'swr';
 import {TreeMenu} from './tree_menu.js';
 import {API} from './parameters.js';
 import {useUser} from './auth.js';
-
-const CurrencyFormatter = new Intl.NumberFormat('it-IT', {
-    style: 'currency',
-    currency: 'EUR',
-});
+import {CurrencyFormatter} from './utils.js';
 
 const useProducts = function (id, user) {
     const baseUrl = `//${API}/products/level_3/${id}`;
