@@ -37,3 +37,11 @@ export const Modal = function ({opened, setOpened, children, size = null}) {
         modalDomEl
     );
 };
+
+export const BigModal = function ({opened, setOpened, children}) {
+    return (
+        <Modal opened={opened} setOpened={setOpened} size="modal-xl">
+            {children}
+        </Modal>
+    );
+};

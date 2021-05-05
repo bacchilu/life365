@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import {useUser} from '../auth.js';
 import {API} from '../parameters.js';
 import {CurrencyFormatter} from '../utils.js';
-import {Modal} from '../libs/modal.js';
+import {BigModal} from '../libs/modal.js';
 
 const useCart = function (user) {
     return useSWR(
@@ -52,9 +52,9 @@ export const CartButton = function (props) {
 
     return (
         <React.Fragment>
-            <Modal opened={modalOpened} setOpened={setModalOpened} size="modal-xl">
+            <BigModal opened={modalOpened} setOpened={setModalOpened}>
                 <CartModal cart={cart} />
-            </Modal>
+            </BigModal>
             <a className="nav-link" href="#">
                 <button type="button" className="btn btn-light" onClick={onCart}>
                     Cart <i className="bi bi-cart4"></i> <sub>{CurrencyFormatter.format(cart.total)}</sub>
