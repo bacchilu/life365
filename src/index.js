@@ -4,7 +4,7 @@ import {HashRouter as Router, Switch, Route, Link} from 'react-router-dom';
 
 import {API} from './parameters.js';
 import {NavBar} from './navbar';
-import {CategoryPanel} from './category.js';
+import {CategoryPanel} from './category';
 
 const useCategories = function () {
     const [categories, setCategories] = React.useState([]);

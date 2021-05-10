@@ -6,7 +6,7 @@ import {API} from '../parameters.js';
 import {CurrencyFormatter} from '../utils.js';
 import {BigModal} from '../libs/modal.js';
 
-const useCart = function (user) {
+export const useCart = function (user) {
     return useSWR(
         function () {
             return `//${API}/order/cart?jwt=${user.jwt}`;
