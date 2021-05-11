@@ -16,8 +16,14 @@ export const ProductRow = function ({item}) {
     const {data: user} = useUser();
     const {data: cart} = useCart(user);
 
+    const inCart = cart.items
+        .map(function (item) {
+            return item.id;
+        })
+        .includes(item.id);
+
     return (
-        <div className="card mb-1">
+        <div className={`card mb-1 ${inCart ? 'border-dark' : ''}`}>
             <div className="row g-0">
                 <div className="col-md-2 text-center align-middle">
                     <img src={item.photos[0]} className="img-fluid" style={{maxHeight: '100px'}} />
