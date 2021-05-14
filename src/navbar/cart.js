@@ -6,8 +6,9 @@ import {API} from '../parameters.js';
 import {CurrencyFormatter} from '../utils.js';
 import {BigModal} from '../libs/modal.js';
 
-export const useCart = function (user) {
-    return useSWR(
+export const useCart = function () {
+    const {data: user} = useUser();
+    const {data, error, mutate} = useSWR(
         function () {
             if (user === undefined) return 'LOADING_CART';
             if (user === null) return 'NULL_CART';
@@ -21,6 +22,15 @@ export const useCart = function (user) {
             return carts.length > 0 ? carts[0] : {total: 0, items: []};
         }
     );
+    return {
+        data,
+        error,
+        Methods: {
+            add: function (item) {
+                console.log(item);
+            },
+        },
+    };
 };
 
 const CartModal = function ({cart}) {
@@ -43,8 +53,7 @@ const CartModal = function ({cart}) {
 };
 
 export const CartButton = function (props) {
-    const {data: user} = useUser();
-    const {data: cart} = useCart(user);
+    const {data: cart} = useCart();
     const [modalOpened, setModalOpened] = React.useState(false);
 
     if (cart === undefined || cart === null) return null;

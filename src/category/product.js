@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {useUser} from '../auth.js';
 import {useCart} from '../navbar/cart.js';
 import {CurrencyFormatter} from '../utils.js';
+import {AddCartForm} from './add_cart_form.js';
 
 const Price = function ({value}) {
     return (
@@ -39,19 +39,13 @@ const ProductRowNotAuthenticated = function ({item}) {
 };
 
 export const ProductRow = function ({item}) {
-    const {data: user} = useUser();
-    const {data: cart} = useCart(user);
+    const {data: cart} = useCart();
 
     if (cart === undefined || cart === null) return <ProductRowNotAuthenticated item={item} />;
 
     const cartProduct = cart.items.find(function (e) {
         return e.id === item.id;
     });
-
-    const addToCart = function (e) {
-        e.preventDefault();
-        console.log(item);
-    };
 
     return (
         <div className={`card mb-1 ${cartProduct !== undefined ? 'border-dark' : ''}`}>
@@ -62,29 +56,11 @@ export const ProductRow = function ({item}) {
                 <div className="col-md-10">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col">
+                            <div className="col-md">
                                 <h5 className="card-title">{item.code_simple}</h5>
                             </div>
-                            <div className="col">
-                                <form className="row g-3 float-end" onSubmit={addToCart}>
-                                    <div className="col-auto">
-                                        {cartProduct !== undefined && <em>{cartProduct.qta}</em>}
-                                    </div>
-                                    <div className="col-auto">
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            max={item.stock}
-                                            step="1"
-                                            className="form-control form-control-sm"
-                                        />
-                                    </div>
-                                    <div className="col-auto">
-                                        <button type="submit" className="btn btn-primary btn-sm">
-                                            <i className="bi bi-cloud-plus"></i>
-                                        </button>
-                                    </div>
-                                </form>
+                            <div className="col-md">
+                                <AddCartForm item={item} />
                             </div>
                         </div>
                         <p className="card-text">{item.title.en}</p>
