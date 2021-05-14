@@ -48,6 +48,11 @@ export const ProductRow = function ({item}) {
         return e.id === item.id;
     });
 
+    const addToCart = function (e) {
+        e.preventDefault();
+        console.log(item);
+    };
+
     return (
         <div className={`card mb-1 ${cartProduct !== undefined ? 'border-dark' : ''}`}>
             <div className="row g-0">
@@ -61,12 +66,25 @@ export const ProductRow = function ({item}) {
                                 <h5 className="card-title">{item.code_simple}</h5>
                             </div>
                             <div className="col">
-                                <span className="float-end">
-                                    {cartProduct !== undefined && <em>{cartProduct.qta}</em>}{' '}
-                                    <button type="button" className="btn btn-primary btn-sm">
-                                        <i className="bi bi-cloud-plus"></i>
-                                    </button>
-                                </span>
+                                <form className="row g-3 float-end" onSubmit={addToCart}>
+                                    <div className="col-auto">
+                                        {cartProduct !== undefined && <em>{cartProduct.qta}</em>}
+                                    </div>
+                                    <div className="col-auto">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max={item.stock}
+                                            step="1"
+                                            className="form-control form-control-sm"
+                                        />
+                                    </div>
+                                    <div className="col-auto">
+                                        <button type="submit" className="btn btn-primary btn-sm">
+                                            <i className="bi bi-cloud-plus"></i>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <p className="card-text">{item.title.en}</p>
