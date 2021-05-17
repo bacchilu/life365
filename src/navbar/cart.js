@@ -27,7 +27,8 @@ export const useCart = function () {
         error,
         Methods: {
             add: function (item) {
-                console.log(item);
+                console.log(item, data);
+                mutate({...data, total: 3.14});
             },
         },
     };
