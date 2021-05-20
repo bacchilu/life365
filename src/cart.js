@@ -3,13 +3,34 @@ import useSWR from 'swr';
 import {useUser} from './auth.js';
 import {API} from './parameters.js';
 
+const reducer = function (cart, action) {
+    console.log(action);
+    const {type, value} = action;
+    if (type === 'PUT_PRODUCT') return {...cart, total: 3.14};
+    throw new Error('Cart operation not implemented!');
+};
+
+const Fetch = {
+    putProduct: async function (user, cartId, action) {
+        const resource = await fetch(`//${API}/order/cart/${cartId}?jwt=${user.jwt}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(action),
+        });
+        return resource.json();
+    },
+};
+
 export const useCart = function () {
     const {data: user} = useUser();
     const {data, error, mutate} = useSWR(
         function () {
             if (user === undefined) return 'LOADING_CART';
             if (user === null) return 'NULL_CART';
-            return `//${API}/order/cart?jwt=${user.jwt}`;
+            return `${API}/order/cart?jwt=${user.jwt}`;
         },
         async function (key) {
             if (key === 'LOADING_CART') return undefined;
@@ -23,9 +44,10 @@ export const useCart = function () {
         data,
         error,
         Methods: {
-            add: function (item) {
-                console.log(item, data);
-                mutate({...data, total: 3.14});
+            add: async function (item, qty) {
+                const action = {type: 'PUT_PRODUCT', value: {id: item.id, qta: qty}};
+                mutate(reducer(data, action), false);
+                mutate(Fetch.putProduct(user, data.id, action));
             },
         },
     };
