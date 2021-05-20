@@ -4,7 +4,6 @@ import {useUser} from './auth.js';
 import {API} from './parameters.js';
 
 const reducer = function (cart, action) {
-    console.log(action);
     const {type, value} = action;
     if (type === 'PUT_PRODUCT') return {...cart, total: 3.14};
     throw new Error('Cart operation not implemented!');
@@ -47,7 +46,7 @@ export const useCart = function () {
             add: async function (item, qty) {
                 const action = {type: 'PUT_PRODUCT', value: {id: item.id, qta: qty}};
                 mutate(reducer(data, action), false);
-                mutate(Fetch.putProduct(user, data.id, action));
+                mutate(Fetch.putProduct(user, data.id, action), false);
             },
         },
     };
