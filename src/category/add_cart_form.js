@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useCart} from '../navbar/cart.js';
+import {useCart} from '../cart.js';
 
 export const AddCartForm = function ({item}) {
     const {data: cart, Methods} = useCart();
