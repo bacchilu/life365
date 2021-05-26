@@ -1,8 +1,10 @@
 import React from 'react';
 
 import {CurrencyFormatter, PercentFormatter} from '../../../utils';
+import {useCart} from '../../../cart';
 
 const QtyEditForm = function ({item, done}) {
+    const {Methods} = useCart();
     const inputEl = React.useRef(null);
     React.useEffect(function () {
         inputEl.current.select();
@@ -16,7 +18,7 @@ const QtyEditForm = function ({item, done}) {
         e.preventDefault();
         const v = parseInt(value);
         if (isNaN(v)) return;
-        console.log(v);
+        Methods.add(item, v);
         done();
     };
 
