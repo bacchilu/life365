@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {Search} from './search.js';
-import {Modal} from '../libs/modal.js';
-import {useUser} from '../auth.js';
+import {Search} from './search';
+import {Modal} from '../libs/modal';
+import {useUser} from '../auth';
 import {AuthModal, UserModal} from './modals';
-import {CartButton} from './cart.js';
+import {CartButton} from './cart';
 
 const LoginButton = function ({user, onLogin, onUser}) {
     if (user === undefined)
