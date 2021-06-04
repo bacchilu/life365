@@ -33,6 +33,7 @@ const QtyEditForm = function ({item, done}) {
                 className="form-control"
                 value={value}
                 onChange={onChange}
+                onBlur={done}
             />
         </form>
     );
