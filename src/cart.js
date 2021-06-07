@@ -3,15 +3,27 @@ import useSWR from 'swr';
 import {useUser} from './auth';
 import {API} from './parameters';
 
+const evalEuristicTotal = function (cart) {
+    const values = cart.items.map(function (item) {
+        const res = item.prezzo * item.qta;
+        return res + (res * item.tax_value) / 100;
+    });
+    console.log(values);
+    return 3.14;
+};
+
 const reducer = function (cart, action) {
     const {type, value} = action;
-    if (type === 'PUT_PRODUCT')
-        return {
+    if (type === 'PUT_PRODUCT') {
+        const newCart = {
             ...cart,
             items: cart.items.map(function (item) {
                 return item.id === value.id ? {...item, qta: value.qta} : item;
             }),
         };
+        newCart.total = evalEuristicTotal(newCart);
+        return newCart;
+    }
     throw new Error('Cart operation not implemented!');
 };
 
