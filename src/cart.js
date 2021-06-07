@@ -43,7 +43,8 @@ export const useCart = function () {
             const res = await fetch(key);
             const carts = await res.json();
             return carts.length > 0 ? carts[0] : {total: 0, items: []};
-        }
+        },
+        {dedupingInterval: 60000}
     );
     return {
         data,

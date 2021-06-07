@@ -43,9 +43,13 @@ const logout = function () {
 };
 
 export const useUser = function () {
-    const {data, error, mutate} = useSWR('auth', function () {
-        return checkAuthentication();
-    });
+    const {data, error, mutate} = useSWR(
+        'auth',
+        function () {
+            return checkAuthentication();
+        },
+        {dedupingInterval: 60000}
+    );
 
     return {
         data,
