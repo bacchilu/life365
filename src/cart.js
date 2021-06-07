@@ -1,11 +1,17 @@
 import useSWR from 'swr';
 
-import {useUser} from './auth.js';
-import {API} from './parameters.js';
+import {useUser} from './auth';
+import {API} from './parameters';
 
 const reducer = function (cart, action) {
     const {type, value} = action;
-    if (type === 'PUT_PRODUCT') return {...cart, total: 3.14};
+    if (type === 'PUT_PRODUCT')
+        return {
+            ...cart,
+            items: cart.items.map(function (item) {
+                return item.id === value.id ? {...item, qta: value.qta} : item;
+            }),
+        };
     throw new Error('Cart operation not implemented!');
 };
 
@@ -45,8 +51,8 @@ export const useCart = function () {
         Methods: {
             add: async function (item, qty) {
                 const action = {type: 'PUT_PRODUCT', value: {id: item.id, qta: qty}};
-                mutate(reducer(data, action), false);
-                mutate(Fetch.putProduct(user, data.id, action), false);
+                await mutate(reducer(data, action), false);
+                return mutate(Fetch.putProduct(user, data.id, action), false);
             },
         },
     };
