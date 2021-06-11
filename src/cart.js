@@ -4,12 +4,15 @@ import {useUser} from './auth';
 import {API} from './parameters';
 
 const evalEuristicTotal = function (cart) {
-    const values = cart.items.map(function (item) {
-        const res = item.prezzo * item.qta;
-        return res + (res * item.tax_value) / 100;
-    });
-    console.log(values);
-    return 3.14;
+    const sum = cart.items
+        .map(function (item) {
+            const res = item.prezzo * item.qta;
+            return res + (res * item.tax_value) / 100;
+        })
+        .reduce(function (acc, item) {
+            return acc + item;
+        }, 0);
+    return sum + cart.shipping_cost + (cart.shipping_cost * cart.tax_value) / 100;
 };
 
 const reducer = function (cart, action) {
