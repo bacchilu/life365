@@ -3,17 +3,29 @@ import useSWR from 'swr';
 import {useUser} from './auth';
 import {API} from './parameters';
 
-const evalEuristicTotal = function (cart) {
-    const sum = cart.items
-        .map(function (item) {
-            const res = item.prezzo * item.qta;
-            return res + (res * item.tax_value) / 100;
-        })
-        .reduce(function (acc, item) {
-            return acc + item;
+const CartUtils = (function () {
+    const evalShippingCost = function (cart) {
+        const weight = cart.items.reduce(function (acc, item) {
+            return acc + item.peso;
         }, 0);
-    return sum + cart.shipping_cost + (cart.shipping_cost * cart.tax_value) / 100;
-};
+        return cart.shipping_cost;
+    };
+
+    return {
+        evalTotal: function (cart) {
+            const sum = cart.items
+                .map(function (item) {
+                    const res = item.prezzo * item.qta;
+                    return res + (res * item.tax_value) / 100;
+                })
+                .reduce(function (acc, item) {
+                    return acc + item;
+                }, 0);
+            const shippingCost = evalShippingCost(cart);
+            return sum + shippingCost + (shippingCost * cart.tax_value) / 100;
+        },
+    };
+})();
 
 const reducer = function (cart, action) {
     const {type, value} = action;
@@ -24,7 +36,7 @@ const reducer = function (cart, action) {
                 return item.id === value.id ? {...item, qta: value.qta} : item;
             }),
         };
-        newCart.total = evalEuristicTotal(newCart);
+        newCart.total = CartUtils.evalTotal(newCart);
         return newCart;
     }
     throw new Error('Cart operation not implemented!');
