@@ -3,6 +3,28 @@ import useSWR from 'swr';
 import {useUser} from './auth';
 import {API} from './parameters';
 
+const useShippingFees = function () {
+    const res = useSWR(`${API}/utils/shipping-fees`, {dedupingInterval: 60000});
+    if (res.data !== undefined)
+        return {
+            ...res,
+            data: res.data.reduce(function (acc, item) {
+                const elem = {
+                    cash: item.cash,
+                    city: item.city,
+                    country: item.country,
+                    dropship: item.dropship,
+                    rows: item.rows,
+                };
+                return {
+                    ...acc,
+                    [item.corriere]: acc[item.corriere] === undefined ? [elem] : [...acc[item.corriere], elem],
+                };
+            }, {}),
+        };
+    return res;
+};
+
 const CartUtils = (function () {
     const evalShippingCost = function (cart) {
         const weight = cart.items.reduce(function (acc, item) {
@@ -58,7 +80,12 @@ const Fetch = {
 
 export const useCart = function () {
     const {data: user} = useUser();
-    const {data, error, mutate} = useSWR(
+    const {data: shippingFees} = useShippingFees();
+    const {
+        data: cart,
+        error,
+        mutate,
+    } = useSWR(
         function () {
             if (user === undefined) return 'LOADING_CART';
             if (user === null) return 'NULL_CART';
@@ -73,6 +100,10 @@ export const useCart = function () {
         },
         {dedupingInterval: 60000}
     );
+
+    const data = shippingFees === undefined ? undefined : cart;
+    if (shippingFees !== undefined) console.log(shippingFees);
+
     return {
         data,
         error,
