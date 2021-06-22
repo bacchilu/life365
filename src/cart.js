@@ -5,36 +5,54 @@ import {API} from './parameters';
 
 const useShippingFees = function () {
     const res = useSWR(`${API}/utils/shipping-fees`, {dedupingInterval: 60000});
-    if (res.data !== undefined)
-        return {
-            ...res,
-            data: res.data.reduce(function (acc, item) {
-                const elem = {
-                    cash: item.cash,
-                    city: item.city,
-                    country: item.country,
-                    dropship: item.dropship,
-                    rows: item.rows,
-                };
-                return {
-                    ...acc,
-                    [item.corriere]: acc[item.corriere] === undefined ? [elem] : [...acc[item.corriere], elem],
-                };
-            }, {}),
-        };
+    if (res.data !== undefined) {
+        const data = res.data.reduce(function (acc, item) {
+            const courier = item.corriere;
+            const elem = {
+                cash: item.cash,
+                city: item.city,
+                country: item.country,
+                dropship: item.dropship,
+                rows: item.rows,
+            };
+            return {...acc, [courier]: acc[courier] === undefined ? [elem] : [...acc[courier], elem]};
+        }, {});
+        const data2 = {};
+        for (const [key, value] of Object.entries(data))
+            data2[key] = value.reduce(function (acc, item) {
+                const country = item.country;
+                const elem = {cash: item.cash, city: item.city, dropship: item.dropship, rows: item.rows};
+                return {...acc, [country]: acc[country] === undefined ? [elem] : [...acc[country], elem]};
+            }, {});
+        return {...res, data: data2};
+    }
     return res;
 };
 
 const CartUtils = (function () {
-    const evalShippingCost = function (cart) {
+    const evalShippingCost = function (cart, shippingFees) {
         const weight = cart.items.reduce(function (acc, item) {
             return acc + item.peso;
         }, 0);
+        const shippingFeeByCountry = shippingFees[cart.courier][cart.addr.spedizione.nazione];
+        const res = shippingFeeByCountry.find(function (item) {
+            return item.city === cart.addr.spedizione.provincia;
+        });
+        const res2 =
+            res !== undefined
+                ? res
+                : shippingFeeByCountry.find(function (item) {
+                      return item.city === null;
+                  });
+        if (cart.dropshipping) console.assert(res2.dropship);
+        if (['CONTRASSEGNO-ASSEGNO', 'CONTRASSEGNO-CONTANTI'].includes(cart.payment_type)) console.assert(res2.cash);
+        console.log(weight);
+        console.log(res2.rows);
         return cart.shipping_cost;
     };
 
     return {
-        evalTotal: function (cart) {
+        evalTotal: function (cart, shippingFees) {
             const sum = cart.items
                 .map(function (item) {
                     const res = item.prezzo * item.qta;
@@ -43,13 +61,15 @@ const CartUtils = (function () {
                 .reduce(function (acc, item) {
                     return acc + item;
                 }, 0);
-            const shippingCost = evalShippingCost(cart);
+            const shippingCost = evalShippingCost(cart, shippingFees);
             return sum + shippingCost + (shippingCost * cart.tax_value) / 100;
         },
     };
 })();
 
-const reducer = function (cart, action) {
+const reducer = function (cart, shippingFees, action) {
+    console.assert(cart !== undefined);
+    console.assert(shippingFees !== undefined);
     const {type, value} = action;
     if (type === 'PUT_PRODUCT') {
         const newCart = {
@@ -58,7 +78,7 @@ const reducer = function (cart, action) {
                 return item.id === value.id ? {...item, qta: value.qta} : item;
             }),
         };
-        newCart.total = CartUtils.evalTotal(newCart);
+        newCart.total = CartUtils.evalTotal(newCart, shippingFees);
         return newCart;
     }
     throw new Error('Cart operation not implemented!');
@@ -102,7 +122,6 @@ export const useCart = function () {
     );
 
     const data = shippingFees === undefined ? undefined : cart;
-    if (shippingFees !== undefined) console.log(shippingFees);
 
     return {
         data,
@@ -110,7 +129,7 @@ export const useCart = function () {
         Methods: {
             add: async function (item, qty) {
                 const action = {type: 'PUT_PRODUCT', value: {id: item.id, qta: qty}};
-                await mutate(reducer(data, action), false);
+                await mutate(reducer(data, shippingFees, action), false);
                 return mutate(Fetch.putProduct(user, data.id, action), false);
             },
         },
