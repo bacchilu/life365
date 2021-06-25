@@ -30,7 +30,7 @@ const useShippingFees = function () {
 };
 
 const CartUtils = (function () {
-    const evalShippingCost = function (cart, shippingFees) {
+    const doEvalShippingCost = function (cart, shippingFees) {
         const weight = cart.items.reduce(function (acc, item) {
             return acc + item.peso;
         }, 0);
@@ -61,9 +61,10 @@ const CartUtils = (function () {
                 .reduce(function (acc, item) {
                     return acc + item;
                 }, 0);
-            const shippingCost = evalShippingCost(cart, shippingFees);
+            const shippingCost = doEvalShippingCost(cart, shippingFees);
             return sum + shippingCost + (shippingCost * cart.tax_value) / 100;
         },
+        evalShippingCost: doEvalShippingCost,
     };
 })();
 
@@ -78,6 +79,7 @@ const reducer = function (cart, shippingFees, action) {
                 return item.id === value.id ? {...item, qta: value.qta} : item;
             }),
         };
+        newCart.shipping_cost = CartUtils.evalShippingCost(newCart, shippingFees);
         newCart.total = CartUtils.evalTotal(newCart, shippingFees);
         return newCart;
     }
