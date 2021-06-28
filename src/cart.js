@@ -46,9 +46,17 @@ const CartUtils = (function () {
                   });
         if (cart.dropshipping) console.assert(res2.dropship);
         if (['CONTRASSEGNO-ASSEGNO', 'CONTRASSEGNO-CONTANTI'].includes(cart.payment_type)) console.assert(res2.cash);
-        console.log(weight);
-        console.log(res2.rows);
-        return cart.shipping_cost;
+        const rows = res2.rows;
+        const indexRow = Math.max(
+            ...Object.keys(rows)
+                .map(function (w) {
+                    return parseInt(w);
+                })
+                .filter(function (w) {
+                    return w <= weight;
+                })
+        );
+        return rows[indexRow];
     };
 
     return {
@@ -76,7 +84,9 @@ const reducer = function (cart, shippingFees, action) {
         const newCart = {
             ...cart,
             items: cart.items.map(function (item) {
-                return item.id === value.id ? {...item, qta: value.qta} : item;
+                const singleWeight = item.peso / item.qta;
+                const euristicWeight = singleWeight * value.qta;
+                return item.id === value.id ? {...item, qta: value.qta, peso: euristicWeight} : item;
             }),
         };
         newCart.shipping_cost = CartUtils.evalShippingCost(newCart, shippingFees);
