@@ -49,7 +49,7 @@ const QtyCol = function ({item}) {
     return isEditing ? (
         <QtyEditForm item={item} done={() => setIsEditing(false)} />
     ) : (
-        <button className="btn btn-link" onClick={onClick}>
+        <button className="btn btn-link" onClick={onClick} disabled={item.virtual}>
             {item.qta}
         </button>
     );
@@ -60,7 +60,9 @@ export const Row = function ({item}) {
         <tr style={{verticalAlign: 'middle'}}>
             <td align="center" style={{width: '100px', height: '100px'}}>
                 <div>
-                    <img src={item.photos[0]} style={{maxWidth: '100%', maxHeight: '100%'}} />
+                    {item.photos !== undefined && (
+                        <img src={item.photos[0]} style={{maxWidth: '100%', maxHeight: '100%'}} />
+                    )}
                 </div>
             </td>
             <th scope="row">{item.Codicesenza}</th>
