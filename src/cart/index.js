@@ -1,7 +1,9 @@
 import useSWR from 'swr';
 
-import {useUser} from './auth';
-import {API} from './parameters';
+import {useUser} from '../auth';
+import {API} from '../parameters';
+import {Fetch} from './fetch';
+import {CartUtils} from './utils';
 
 const useShippingFees = function () {
     const res = useSWR(`${API}/utils/shipping-fees`, {dedupingInterval: 60000});
@@ -29,53 +31,6 @@ const useShippingFees = function () {
     return res;
 };
 
-const CartUtils = (function () {
-    const doEvalShippingCost = function (cart, shippingFees) {
-        const weight = cart.items.reduce(function (acc, item) {
-            return acc + item.peso;
-        }, 0);
-        const shippingFeeByCountry = shippingFees[cart.courier][cart.addr.spedizione.nazione];
-        const res = shippingFeeByCountry.find(function (item) {
-            return item.city === cart.addr.spedizione.provincia;
-        });
-        const res2 =
-            res !== undefined
-                ? res
-                : shippingFeeByCountry.find(function (item) {
-                      return item.city === null;
-                  });
-        if (cart.dropshipping) console.assert(res2.dropship);
-        if (['CONTRASSEGNO-ASSEGNO', 'CONTRASSEGNO-CONTANTI'].includes(cart.payment_type)) console.assert(res2.cash);
-        const rows = res2.rows;
-        const indexRow = Math.max(
-            ...Object.keys(rows)
-                .map(function (w) {
-                    return parseInt(w);
-                })
-                .filter(function (w) {
-                    return w <= weight;
-                })
-        );
-        return rows[indexRow];
-    };
-
-    return {
-        evalTotal: function (cart, shippingFees) {
-            const sum = cart.items
-                .map(function (item) {
-                    const res = item.prezzo * item.qta;
-                    return res + (res * item.tax_value) / 100;
-                })
-                .reduce(function (acc, item) {
-                    return acc + item;
-                }, 0);
-            const shippingCost = doEvalShippingCost(cart, shippingFees);
-            return sum + shippingCost + (shippingCost * cart.tax_value) / 100;
-        },
-        evalShippingCost: doEvalShippingCost,
-    };
-})();
-
 const reducer = function (cart, shippingFees, action) {
     console.assert(cart !== undefined);
     console.assert(shippingFees !== undefined);
@@ -94,20 +49,6 @@ const reducer = function (cart, shippingFees, action) {
         return newCart;
     }
     throw new Error('Cart operation not implemented!');
-};
-
-const Fetch = {
-    putProduct: async function (user, cartId, action) {
-        const resource = await fetch(`//${API}/order/cart/${cartId}?jwt=${user.jwt}`, {
-            method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(action),
-        });
-        return resource.json();
-    },
 };
 
 export const useCart = function () {

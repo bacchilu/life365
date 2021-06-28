@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {useCart} from '../cart.js';
-import {CurrencyFormatter} from '../utils.js';
-import {AddCartForm} from './add_cart_form.js';
+import {useCart} from '../cart';
+import {CurrencyFormatter} from '../utils';
+import {AddCartForm} from './add_cart_form';
 
 const Price = function ({value}) {
     return (

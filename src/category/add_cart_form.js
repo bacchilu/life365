@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useCart} from '../cart.js';
+import {useCart} from '../cart';
 
 const evalQty = function (qty, cartQty) {
     const res = parseInt(qty);
