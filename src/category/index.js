@@ -50,20 +50,40 @@ export const CategoryPanel = function (props) {
     const id = parseInt(category_id.split('-').pop());
 
     return (
+        // <div className="row">
+        //     <div className="col-sm-2">
+        //         <TreeMenu id={id} />
+        //     </div>
+        //     <div className="col-sm-10">
+        //         <Switch>
+        //             <Route path={`${match.path}/:subcategory_id`}>
+        //                 <Subcategory />
+        //             </Route>
+        //             <Route path={match.path}>
+        //                 <p>{`ROOT CATEGORY: ${category_id}`}</p>
+        //             </Route>
+        //         </Switch>
+        //     </div>
+        // </div>
         <div className="row">
-            <div className="col-sm-2">
-                <TreeMenu id={id} />
-            </div>
-            <div className="col-sm-10">
-                <Switch>
-                    <Route path={`${match.path}/:subcategory_id`}>
+            <Switch>
+                <Route path={`${match.path}/:subcategory_id`}>
+                    <div className="col-sm-2">
+                        <TreeMenu id={id} />
+                    </div>
+                    <div className="col-sm-10">
                         <Subcategory />
-                    </Route>
-                    <Route path={match.path}>
+                    </div>
+                </Route>
+                <Route path={match.path}>
+                    <div className="col-sm-2">
+                        <TreeMenu id={id} />
+                    </div>
+                    <div className="col-sm-10">
                         <p>{`ROOT CATEGORY: ${category_id}`}</p>
-                    </Route>
-                </Switch>
-            </div>
+                    </div>
+                </Route>
+            </Switch>
         </div>
     );
 };

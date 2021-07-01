@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink, useRouteMatch} from 'react-router-dom';
+import {NavLink, useRouteMatch, useParams} from 'react-router-dom';
 import useSWR from 'swr';
 
 import {API} from './parameters.js';
@@ -17,6 +17,7 @@ const useTree = function (id) {
 
 export const TreeMenu = function ({id}) {
     const match = useRouteMatch();
+    const {subcategory_id} = useParams();
     const {data} = useTree(id);
 
     if (data === undefined)
@@ -27,12 +28,22 @@ export const TreeMenu = function ({id}) {
         );
     if (data === undefined) return null;
 
+    const baseUrl = match.url.split('/').slice(0, 3).join('/');
+
+    const subcategoryId = subcategory_id !== undefined ? parseInt(subcategory_id.split('-').pop()) : null;
+    const rootSubcategory = data.find(function (e) {
+        return e.children.find(function (f) {
+            return f.id === subcategoryId;
+        });
+    });
+    console.log(rootSubcategory);
+
     const items = data.map(function (item) {
         const items = item.children.map(function (item) {
             return (
                 <NavLink
                     key={item.id}
-                    to={`${match.url}/${toslug(item.name.en)}-${item.id}`}
+                    to={`${baseUrl}/${toslug(item.name.en)}-${item.id}`}
                     activeClassName="active"
                     className="list-group-item list-group-item-action"
                     aria-current="true"
