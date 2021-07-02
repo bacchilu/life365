@@ -36,7 +36,7 @@ export const TreeMenu = function ({id}) {
             return f.id === subcategoryId;
         });
     });
-    console.log(rootSubcategory);
+    const rootId = rootSubcategory?.id;
 
     const items = data.map(function (item) {
         const items = item.children.map(function (item) {
@@ -57,7 +57,7 @@ export const TreeMenu = function ({id}) {
             <div key={item.id} className="accordion-item">
                 <h2 className="accordion-header">
                     <button
-                        className="accordion-button collapsed"
+                        className={`accordion-button ${rootId === item.id ? null : 'collapsed'}`}
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target={`#collapse_${item.id}`}
@@ -66,7 +66,11 @@ export const TreeMenu = function ({id}) {
                         {item.name.en}
                     </button>
                 </h2>
-                <div id={`collapse_${item.id}`} className="accordion-collapse collapse" data-bs-parent="#accordionTree">
+                <div
+                    id={`collapse_${item.id}`}
+                    className={`accordion-collapse collapse ${rootId === item.id ? 'show' : null}`}
+                    data-bs-parent="#accordionTree"
+                >
                     <div className="accordion-body">
                         <div className="list-group list-group-flush">{items}</div>
                     </div>
