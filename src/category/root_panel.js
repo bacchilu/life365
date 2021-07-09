@@ -21,7 +21,6 @@ export const RootPanel = function ({category_id}) {
     const {data: user} = useUser();
     const {data} = useInEvidenza(user, category_id);
 
-    console.log(data);
     if (data === undefined)
         return (
             <div className="spinner-border" role="status">
@@ -29,5 +28,19 @@ export const RootPanel = function ({category_id}) {
             </div>
         );
 
-    return <p>{`ROOT CATEGORY: ${category_id}`}</p>;
+    const cards = data.map(function (item) {
+        return (
+            <div key={item.id} className="col">
+                <div className="card">
+                    <img src={item.url_image} style={{height: '300px'}} className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">{item.Codicesenza}</h5>
+                        <p className="card-text">{item.Descrizione}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    });
+
+    return <div className="row row-cols-1 row-cols-md-3 g-4">{cards}</div>;
 };
