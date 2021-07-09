@@ -6,6 +6,7 @@ import {TreeMenu} from '../tree_menu.js';
 import {API} from '../parameters.js';
 import {useUser} from '../auth.js';
 import {ProductRow} from './product.js';
+import {RootPanel} from './root_panel.js';
 
 const useProducts = function (id, user) {
     const baseUrl = `//${API}/products/level_3/${id}`;
@@ -56,21 +57,6 @@ export const CategoryPanel = function (props) {
     const id = parseInt(category_id.split('-').pop());
 
     return (
-        // <div className="row">
-        //     <div className="col-sm-2">
-        //         <TreeMenu id={id} />
-        //     </div>
-        //     <div className="col-sm-10">
-        //         <Switch>
-        //             <Route path={`${match.path}/:subcategory_id`}>
-        //                 <Subcategory />
-        //             </Route>
-        //             <Route path={match.path}>
-        //                 <p>{`ROOT CATEGORY: ${category_id}`}</p>
-        //             </Route>
-        //         </Switch>
-        //     </div>
-        // </div>
         <div className="row">
             <Switch>
                 <Route path={`${match.path}/:subcategory_id`}>
@@ -86,7 +72,7 @@ export const CategoryPanel = function (props) {
                         <TreeMenu id={id} />
                     </div>
                     <div className="col-sm-10">
-                        <p>{`ROOT CATEGORY: ${category_id}`}</p>
+                        <RootPanel category_id={id} />
                     </div>
                 </Route>
             </Switch>
