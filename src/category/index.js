@@ -9,9 +9,15 @@ import {ProductRow} from './product.js';
 
 const useProducts = function (id, user) {
     const baseUrl = `//${API}/products/level_3/${id}`;
-    return useSWR(function () {
-        return user === null ? baseUrl : `${baseUrl}?jwt=${user.jwt}`;
-    });
+    return useSWR(
+        function () {
+            return user === null ? baseUrl : `${baseUrl}?jwt=${user.jwt}`;
+        },
+        async function (url) {
+            return (await fetch(url)).json();
+        },
+        {dedupingInterval: 60000}
+    );
 };
 
 const Subcategory = function (props) {

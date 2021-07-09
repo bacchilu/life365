@@ -12,7 +12,13 @@ const toslug = function (t) {
 };
 
 const useTree = function (id) {
-    return useSWR(`//${API}/warehouse/tree/${id}`);
+    return useSWR(
+        `//${API}/warehouse/tree/${id}`,
+        async function (url) {
+            return (await fetch(url)).json();
+        },
+        {dedupingInterval: 60000}
+    );
 };
 
 export const TreeMenu = function ({id}) {
