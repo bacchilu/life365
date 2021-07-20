@@ -3,6 +3,7 @@ import useSWR from 'swr';
 
 import {API} from '../parameters';
 import {useUser} from '../auth';
+// import {Test} from '../libs/offcanvas';
 
 const useInEvidenza = function (user, category_id) {
     const baseUrl = `//${API}/warehouse/in_evidenza/${category_id}`;
@@ -20,6 +21,7 @@ const useInEvidenza = function (user, category_id) {
 export const RootPanel = function ({category_id}) {
     const {data: user} = useUser();
     const {data} = useInEvidenza(user, category_id);
+    // const [opened, setOpened] = React.useState(false);
 
     if (data === undefined)
         return (
@@ -42,5 +44,14 @@ export const RootPanel = function ({category_id}) {
         );
     });
 
-    return <div className="row row-cols-1 row-cols-md-3 g-4">{cards}</div>;
+    const onClick = function () {
+        // setOpened(true);
+    };
+
+    return (
+        <div onClick={onClick} className="row row-cols-1 row-cols-md-3 g-4">
+            {/* <Test opened={opened} setOpened={setOpened} /> */}
+            {cards}
+        </div>
+    );
 };

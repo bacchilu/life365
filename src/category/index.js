@@ -7,6 +7,7 @@ import {API} from '../parameters.js';
 import {useUser} from '../auth.js';
 import {ProductRow} from './product.js';
 import {RootPanel} from './root_panel.js';
+import {Test} from '../libs/offcanvas.js';
 
 const useProducts = function (id, user) {
     const baseUrl = `//${API}/products/level_3/${id}`;
@@ -50,6 +51,23 @@ const Subcategory = function (props) {
     );
 };
 
+const MenuButton = function () {
+    const [opened, setOpened] = React.useState(false);
+
+    const onClick = function () {
+        setOpened(true);
+    };
+
+    return (
+        <React.Fragment>
+            <Test opened={opened} setOpened={setOpened} />
+            <button type="button" className="btn btn-outline-info" onClick={onClick}>
+                Menù
+            </button>
+        </React.Fragment>
+    );
+};
+
 export const CategoryPanel = function (props) {
     const {category_id} = useParams();
     const match = useRouteMatch();
@@ -61,7 +79,12 @@ export const CategoryPanel = function (props) {
             <Switch>
                 <Route path={`${match.path}/:subcategory_id`}>
                     <div className="col-sm-2">
-                        <TreeMenu id={id} />
+                        <div className="d-none d-sm-block">
+                            <TreeMenu id={id} />
+                        </div>
+                        <div className="d-block d-sm-none">
+                            <MenuButton id={id} />
+                        </div>
                     </div>
                     <div className="col-sm-10">
                         <Subcategory />
@@ -69,7 +92,12 @@ export const CategoryPanel = function (props) {
                 </Route>
                 <Route path={match.path}>
                     <div className="col-sm-2">
-                        <TreeMenu id={id} />
+                        <div className="d-none d-sm-block">
+                            <TreeMenu id={id} />
+                        </div>
+                        <div className="d-block d-sm-none">
+                            <MenuButton id={id} />
+                        </div>
                     </div>
                     <div className="col-sm-10">
                         <RootPanel category_id={id} />
