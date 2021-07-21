@@ -2,12 +2,11 @@ import React from 'react';
 import {Switch, Route, useParams, useRouteMatch} from 'react-router-dom';
 import useSWR from 'swr';
 
-import {TreeMenu} from '../tree_menu.js';
+import {TreeMenu, MenuButton} from '../tree_menu';
 import {API} from '../parameters.js';
 import {useUser} from '../auth.js';
 import {ProductRow} from './product.js';
 import {RootPanel} from './root_panel.js';
-import {Test} from '../libs/offcanvas.js';
 
 const useProducts = function (id, user) {
     const baseUrl = `//${API}/products/level_3/${id}`;
@@ -47,23 +46,6 @@ const Subcategory = function (props) {
     return (
         <React.Fragment>
             <div className="row row-cols-1 m-1">{items}</div>
-        </React.Fragment>
-    );
-};
-
-const MenuButton = function () {
-    const [opened, setOpened] = React.useState(false);
-
-    const onClick = function () {
-        setOpened(true);
-    };
-
-    return (
-        <React.Fragment>
-            <Test opened={opened} setOpened={setOpened} />
-            <button type="button" className="btn btn-outline-info" onClick={onClick}>
-                Menù
-            </button>
         </React.Fragment>
     );
 };

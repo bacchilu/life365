@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink, useRouteMatch, useParams} from 'react-router-dom';
 import useSWR from 'swr';
 
-import {API} from './parameters.js';
+import {API} from '../parameters.js';
 
 const toslug = function (t) {
     return t
