@@ -6,7 +6,13 @@ import {Fetch} from './fetch';
 import {CartUtils} from './utils';
 
 const useShippingFees = function () {
-    const res = useSWR(`${API}/utils/shipping-fees`, {dedupingInterval: 60000});
+    const res = useSWR(
+        `${API}/utils/shipping-fees`,
+        async function (url) {
+            return (await fetch(url)).json();
+        },
+        {dedupingInterval: 60000}
+    );
     if (res.data !== undefined) {
         const data = res.data.reduce(function (acc, item) {
             const courier = item.corriere;
