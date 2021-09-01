@@ -30,7 +30,7 @@ export const RootPanel = function ({category_id}) {
             </div>
         );
 
-    const cards = data.map(function (item) {
+    const cards = data.slice(0, 9).map(function (item) {
         return (
             <div key={item.id} className="col">
                 <div className="card">
@@ -49,9 +49,12 @@ export const RootPanel = function ({category_id}) {
     };
 
     return (
-        <div onClick={onClick} className="row row-cols-1 row-cols-md-3 g-4">
-            {/* <Test opened={opened} setOpened={setOpened} /> */}
-            {cards}
-        </div>
+        <React.Fragment>
+            <h1 className="display-6">In evidenza</h1>
+            <div onClick={onClick} className="row row-cols-1 row-cols-md-3 g-4 shadow rounded" style={{margin: '1px'}}>
+                {/* <Test opened={opened} setOpened={setOpened} /> */}
+                {cards}
+            </div>
+        </React.Fragment>
     );
 };
