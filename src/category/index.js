@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route, useParams, useRouteMatch} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import useSWR from 'swr';
 
 import {TreeMenu, MenuButton} from '../tree_menu';
@@ -21,7 +21,7 @@ const useProducts = function (id, user) {
     );
 };
 
-const Subcategory = function (props) {
+const Subcategory = function () {
     const {subcategory_id} = useParams();
     const id = parseInt(subcategory_id.split('-').pop());
     const {data: user} = useUser();
@@ -50,42 +50,48 @@ const Subcategory = function (props) {
     );
 };
 
+const TreeMenuPanel = function () {
+    const {category_id} = useParams();
+    const id = parseInt(category_id.split('-').pop());
+
+    return (
+        <>
+            <div className="d-none d-sm-block">
+                <TreeMenu id={id} />
+            </div>
+            <div className="d-block d-sm-none">
+                <MenuButton id={id} />
+            </div>
+        </>
+    );
+};
+
+export const SubCategoryPanel = function () {
+    return (
+        <div className="row">
+            <div className="col-sm-2">
+                <TreeMenuPanel />
+            </div>
+            <div className="col-sm-10">
+                <Subcategory />
+            </div>
+        </div>
+    );
+};
+
 export const CategoryPanel = function (props) {
     const {category_id} = useParams();
-    const match = useRouteMatch();
 
     const id = parseInt(category_id.split('-').pop());
 
     return (
         <div className="row">
-            <Switch>
-                <Route path={`${match.path}/:subcategory_id`}>
-                    <div className="col-sm-2">
-                        <div className="d-none d-sm-block">
-                            <TreeMenu id={id} />
-                        </div>
-                        <div className="d-block d-sm-none">
-                            <MenuButton id={id} />
-                        </div>
-                    </div>
-                    <div className="col-sm-10">
-                        <Subcategory />
-                    </div>
-                </Route>
-                <Route path={match.path}>
-                    <div className="col-sm-2">
-                        <div className="d-none d-sm-block">
-                            <TreeMenu id={id} />
-                        </div>
-                        <div className="d-block d-sm-none">
-                            <MenuButton id={id} />
-                        </div>
-                    </div>
-                    <div className="col-sm-10">
-                        <RootPanel category_id={id} />
-                    </div>
-                </Route>
-            </Switch>
+            <div className="col-sm-2">
+                <TreeMenuPanel />
+            </div>
+            <div className="col-sm-10">
+                <RootPanel />
+            </div>
         </div>
     );
 };

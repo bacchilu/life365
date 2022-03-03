@@ -1,5 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
+import {useParams} from 'react-router-dom';
 
 import {API} from '../parameters';
 import {useUser} from '../auth';
@@ -18,9 +19,11 @@ const useInEvidenza = function (user, category_id) {
     );
 };
 
-export const RootPanel = function ({category_id}) {
+export const RootPanel = function () {
     const {data: user} = useUser();
-    const {data} = useInEvidenza(user, category_id);
+    const {category_id} = useParams();
+    const id = parseInt(category_id.split('-').pop());
+    const {data} = useInEvidenza(user, id);
     // const [opened, setOpened] = React.useState(false);
 
     if (data === undefined)

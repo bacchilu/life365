@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import {HashRouter, Routes, Route, Link} from 'react-router-dom';
 
 import {API} from './parameters.js';
 import {NavBar} from './navbar';
-import {CategoryPanel} from './category';
+import {CategoryPanel, SubCategoryPanel} from './category';
 
 const useCategories = function () {
     const [categories, setCategories] = React.useState([]);
@@ -44,23 +44,20 @@ const App = function (props) {
         );
     });
     return (
-        <Router>
+        <HashRouter>
             <header>
                 <NavBar categories={categories} />
             </header>
             <main>
                 <div className="container-fluid">
-                    <Switch>
-                        <Route path="/c/:category_id">
-                            <CategoryPanel />
-                        </Route>
-                        <Route path="/">
-                            <div className="row row-cols-1 row-cols-md-4 g-4">{cards}</div>
-                        </Route>
-                    </Switch>
+                    <Routes>
+                        <Route path="/c/:category_id" element={<CategoryPanel />} />
+                        <Route path="/c/:category_id/:subcategory_id" element={<SubCategoryPanel />} />
+                        <Route path="/" element={<div className="row row-cols-1 row-cols-md-4 g-4">{cards}</div>} />
+                    </Routes>
                 </div>
             </main>
-        </Router>
+        </HashRouter>
     );
 };
 

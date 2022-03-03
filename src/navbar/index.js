@@ -29,8 +29,9 @@ export const NavBar = function ({categories}) {
         return (
             <li key={item['ID_Categoria']} className="nav-item col-6 col-lg-auto">
                 <NavLink
-                    className="nav-link"
-                    activeClassName="active"
+                    className={function ({isActive}) {
+                        return 'nav-link' + (isActive ? ' active' : '');
+                    }}
                     to={`/c/${item['slug']}-${item['ID_Categoria']}`}
                 >
                     {item['Descrizione']}
