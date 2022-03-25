@@ -1,6 +1,6 @@
 {
     "name": "life365",
-    "version": "4.1.0",
+    "version": "4.1.1",
     "description": "life365",
     "private": true,
     "scripts": {
@@ -12,13 +12,13 @@
     "author": "Luca Bacchi <bacchilu@gmail.com> (http://www.lucabacchi.it)",
     "license": "ISC",
     "devDependencies": {
-        "@babel/core": "^7.17.5",
+        "@babel/core": "^7.17.8",
         "@babel/preset-env": "^7.16.11",
         "@babel/preset-react": "^7.16.7",
-        "babel-loader": "^8.2.3",
+        "babel-loader": "^8.2.4",
         "webpack": "^5.70.0",
         "webpack-cli": "^4.9.2",
-        "npm-check-updates": "^12.5.2"
+        "npm-check-updates": "^12.5.4"
     },
     "dependencies": {
         "core-js": "^3.21.1",
