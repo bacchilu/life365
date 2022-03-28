@@ -35,25 +35,3 @@ export const Offcanvas = function ({opened, setOpened, children}) {
         offcanvasDomEl
     );
 };
-
-export const Test = function ({opened, setOpened}) {
-    return (
-        <Offcanvas opened={opened} setOpened={setOpened}>
-            <div className="offcanvas-header">
-                <h5 className="offcanvas-title">Offcanvas</h5>
-                <button
-                    type="button"
-                    className="btn-close text-reset"
-                    data-bs-dismiss="offcanvas"
-                    aria-label="Close"
-                ></button>
-            </div>
-            <div className="offcanvas-body">
-                <div>
-                    Some text as placeholder. In real life you can have the elements you have chosen. Like, text,
-                    images, lists, etc.
-                </div>
-            </div>
-        </Offcanvas>
-    );
-};
