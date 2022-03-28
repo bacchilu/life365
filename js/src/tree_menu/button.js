@@ -3,6 +3,7 @@ import useSWR from 'swr';
 
 import {API} from '../parameters.js';
 import {Offcanvas} from '../libs/offcanvas.js';
+import {TreeMenu} from '.';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -35,8 +36,7 @@ const OffcanvasMenu = function ({opened, setOpened, id}) {
                 ></button>
             </div>
             <div className="offcanvas-body">
-                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images,
-                lists, etc.
+                <TreeMenu id={id} />
             </div>
         </Offcanvas>
     );
