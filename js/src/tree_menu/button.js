@@ -18,7 +18,7 @@ const useCategory = function (id) {
     });
 };
 
-const Test = function ({opened, setOpened, id}) {
+const OffcanvasMenu = function ({opened, setOpened, id}) {
     const category = useCategory(id);
 
     const title = category === undefined ? 'Loading...' : category.Descrizione;
@@ -35,10 +35,8 @@ const Test = function ({opened, setOpened, id}) {
                 ></button>
             </div>
             <div className="offcanvas-body">
-                <div>
-                    Some text as placeholder. In real life you can have the elements you have chosen. Like, text,
-                    images, lists, etc.
-                </div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images,
+                lists, etc.
             </div>
         </Offcanvas>
     );
@@ -53,7 +51,7 @@ export const MenuButton = function ({id}) {
 
     return (
         <div style={{padding: '5px'}}>
-            <Test opened={opened} setOpened={setOpened} id={id} />
+            <OffcanvasMenu opened={opened} setOpened={setOpened} id={id} />
             <button type="button" className="btn btn-outline-success" onClick={onClick}>
                 <i className="bi bi-menu-button"></i>
             </button>
