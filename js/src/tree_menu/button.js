@@ -52,7 +52,7 @@ export const MenuButton = function ({id}) {
     return (
         <div style={{padding: '5px'}}>
             <OffcanvasMenu opened={opened} setOpened={setOpened} id={id} />
-            <button type="button" className="btn btn-outline-success" onClick={onClick}>
+            <button type="button" className="btn btn-outline-success btn-lg" onClick={onClick}>
                 <i className="bi bi-menu-button"></i>
             </button>
         </div>

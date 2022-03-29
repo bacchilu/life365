@@ -58,8 +58,11 @@ const TreeMenuPanel = function () {
         <>
             <div className="d-none d-sm-block">
                 <TreeMenu id={id} />
+                <div className="fixed-bottom">
+                    <MenuButton id={id} />
+                </div>
             </div>
-            <div className="d-block d-sm-none">
+            <div className="d-block d-sm-none fixed-bottom">
                 <MenuButton id={id} />
             </div>
         </>
