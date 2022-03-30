@@ -1,6 +1,6 @@
 {
     "name": "life365",
-    "version": "4.1.1",
+    "version": "5.0.0",
     "description": "life365",
     "private": true,
     "scripts": {
@@ -23,8 +23,8 @@
     "dependencies": {
         "core-js": "^3.21.1",
         "localforage": "^1.10.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
         "react-router-dom": "^6.2.2",
         "swr": "^1.2.2"
     }

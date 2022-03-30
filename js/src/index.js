@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {HashRouter, Routes, Route, Link} from 'react-router-dom';
 
 import {API} from './parameters.js';
@@ -8,9 +8,12 @@ import {CategoryPanel, SubCategoryPanel} from './category';
 
 const useCategories = function () {
     const [categories, setCategories] = React.useState([]);
-    React.useEffect(async function () {
-        const response = await fetch(`//${API}/warehouse/getCategories`);
-        setCategories(await response.json());
+    React.useEffect(function () {
+        const getData = async function () {
+            const response = await fetch(`//${API}/warehouse/getCategories`);
+            setCategories(await response.json());
+        };
+        getData();
     }, []);
 
     return categories;
@@ -61,4 +64,4 @@ const App = function (props) {
     );
 };
 
-ReactDOM.render(<App />, document.getElementById('app'));
+createRoot(document.getElementById('app')).render(<App />);

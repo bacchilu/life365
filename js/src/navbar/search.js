@@ -14,19 +14,22 @@ export const Search = function (props) {
     const [value, setValue] = React.useState('');
     const [suggestions, setSuggestions] = React.useState([]);
     React.useEffect(
-        async function () {
-            const v = value.trim();
-            if (v === '') {
-                setSuggestions([]);
-                return;
-            }
-            const response = await fetch(`//${API}/search/suggest?page=0&s=${encodeURIComponent(v)}`);
-            const res = await response.json();
-            setSuggestions(
-                res['results'].map(function (item) {
-                    return {id: item['id'], code: item['code']};
-                })
-            );
+        function () {
+            const f = async function () {
+                const v = value.trim();
+                if (v === '') {
+                    setSuggestions([]);
+                    return;
+                }
+                const response = await fetch(`//${API}/search/suggest?page=0&s=${encodeURIComponent(v)}`);
+                const res = await response.json();
+                setSuggestions(
+                    res['results'].map(function (item) {
+                        return {id: item['id'], code: item['code']};
+                    })
+                );
+            };
+            f();
         },
         [value]
     );
