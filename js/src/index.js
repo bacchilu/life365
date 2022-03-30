@@ -2,26 +2,14 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import {HashRouter, Routes, Route, Link} from 'react-router-dom';
 
-import {API} from './parameters.js';
 import {NavBar} from './navbar';
 import {CategoryPanel, SubCategoryPanel} from './category';
-
-const useCategories = function () {
-    const [categories, setCategories] = React.useState([]);
-    React.useEffect(function () {
-        const getData = async function () {
-            const response = await fetch(`//${API}/warehouse/getCategories`);
-            setCategories(await response.json());
-        };
-        getData();
-    }, []);
-
-    return categories;
-};
+import {useCategories} from './hooks.js';
 
 const App = function (props) {
-    const categories = useCategories();
+    const {data} = useCategories();
 
+    const categories = data === undefined ? [] : data;
     const cards = categories.map(function (item) {
         return (
             <div key={item['ID_Categoria']} className="col d-flex justify-content-center">
