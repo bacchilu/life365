@@ -1,38 +1,28 @@
 import React from 'react';
+import useSWR from 'swr';
 
 import {API} from '../parameters.js';
 
-const fetchWithAbort = function (v) {
-    const controller = new AbortController();
-    const res = fetch(`//${API}/search/suggest?page=0&s=${encodeURIComponent(v)}`, {
-        signal: controller.signal,
-    });
-    return [controller, res];
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+const useProducts = function (value) {
+    const {data} = useSWR(
+        value !== '' ? `//${API}/search/suggest?page=0&s=${encodeURIComponent(value)}` : null,
+        fetcher,
+        {
+            dedupingInterval: 60000,
+        }
+    );
+    return data === undefined
+        ? []
+        : data.results.map(function (item) {
+              return {id: item.id, code: item.code};
+          });
 };
 
-export const Search = function (props) {
+export const Search = function () {
     const [value, setValue] = React.useState('');
-    const [suggestions, setSuggestions] = React.useState([]);
-    React.useEffect(
-        function () {
-            const f = async function () {
-                const v = value.trim();
-                if (v === '') {
-                    setSuggestions([]);
-                    return;
-                }
-                const response = await fetch(`//${API}/search/suggest?page=0&s=${encodeURIComponent(v)}`);
-                const res = await response.json();
-                setSuggestions(
-                    res['results'].map(function (item) {
-                        return {id: item['id'], code: item['code']};
-                    })
-                );
-            };
-            f();
-        },
-        [value]
-    );
+    const suggestions = useProducts(value.trim());
 
     const onChange = function (e) {
         setValue(e.target.value);
