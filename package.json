@@ -1,0 +1,46 @@
+{
+    "name": "life365",
+    "version": "6.1.0",
+    "description": "life365",
+    "private": true,
+    "source": "src/index.html",
+    "browserslist": "defaults",
+    "scripts": {
+        "update": "ncu -u",
+        "serve": "parcel -p 8000 --lazy",
+        "watch": "parcel watch",
+        "build": "rm -rf dist && rm -rf docs && parcel build --no-source-maps --dist-dir docs --public-url=/life365"
+    },
+    "author": "Luca Bacchi <bacchilu@gmail.com> (http://www.lucabacchi.it)",
+    "license": "ISC",
+    "prettier": {
+        "arrowParens": "always",
+        "bracketSpacing": false,
+        "embeddedLanguageFormatting": "auto",
+        "htmlWhitespaceSensitivity": "css",
+        "insertPragma": false,
+        "jsxBracketSameLine": false,
+        "jsxSingleQuote": false,
+        "printWidth": 120,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "requirePragma": false,
+        "semi": true,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "es5",
+        "useTabs": false,
+        "vueIndentScriptAndStyle": false
+    },
+    "devDependencies": {
+        "parcel": "^2.6.0",
+        "npm-check-updates": "^13.1.1"
+    },
+    "dependencies": {
+        "localforage": "^1.10.0",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-router-dom": "^6.3.0",
+        "swr": "^1.3.0"
+    }
+}
