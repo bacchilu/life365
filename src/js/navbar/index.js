@@ -46,20 +46,11 @@ export const NavBar = function ({categories}) {
                     <Link className="navbar-brand" to="/">
                         <img
                             className="brand-img"
-                            alt="Brand"
                             src="https://static.life365.eu/common/template_01/images/life365-09.gif"
                             style={{width: '200px'}}
                         />
                     </Link>
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse"
-                        aria-controls="navbarCollapse"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
+                    <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="navbar-collapse collapse" id="navbarCollapse">
