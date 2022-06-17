@@ -6,8 +6,29 @@ import {NavBar} from './navbar';
 import {CategoryPanel, SubCategoryPanel} from './category';
 import {useCategories} from './hooks.js';
 
-const App = function (props) {
+const Spinner = function () {
+    return (
+        <>
+            <div className="d-flex justify-content-center mt-5">
+                <div className="spinner-border" style={{width: '8rem', height: '8rem'}} role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div className="d-flex justify-content-center mt-5 lead">
+                Nel mezzo del cammin di nostra vita
+                <br />
+                mi ritrovai per una selva oscura,
+                <br />
+                ché la diritta via era smarrita.
+            </div>
+        </>
+    );
+};
+
+const App = function () {
     const {data} = useCategories();
+
+    if (data === undefined) return <Spinner />;
 
     const categories = data === undefined ? [] : data;
     const cards = categories.map(function (item) {
