@@ -26,11 +26,10 @@ const Spinner = function () {
 };
 
 const App = function () {
-    const {data} = useCategories();
+    const {data: categories} = useCategories();
 
-    if (data === undefined) return <Spinner />;
+    if (categories === undefined) return <Spinner />;
 
-    const categories = data === undefined ? [] : data;
     const cards = categories.map(function (item) {
         return (
             <div key={item['ID_Categoria']} className="col d-flex justify-content-center">
