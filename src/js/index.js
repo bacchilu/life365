@@ -25,11 +25,7 @@ const Spinner = function () {
     );
 };
 
-const App = function () {
-    const {data: categories} = useCategories();
-
-    if (categories === undefined) return <Spinner />;
-
+const IndexPage = function ({categories}) {
     const cards = categories.map(function (item) {
         return (
             <div key={item['ID_Categoria']} className="col d-flex justify-content-center">
@@ -54,6 +50,15 @@ const App = function () {
             </div>
         );
     });
+
+    return <div className="row row-cols-1 row-cols-md-4 g-4">{cards}</div>;
+};
+
+const App = function () {
+    const {data: categories} = useCategories();
+
+    if (categories === undefined) return <Spinner />;
+
     return (
         <HashRouter>
             <header>
@@ -62,9 +67,9 @@ const App = function () {
             <main>
                 <div className="container-fluid">
                     <Routes>
+                        <Route path="/" element={<IndexPage categories={categories} />} />
                         <Route path="/c/:category_id" element={<CategoryPanel />} />
                         <Route path="/c/:category_id/:subcategory_id" element={<SubCategoryPanel />} />
-                        <Route path="/" element={<div className="row row-cols-1 row-cols-md-4 g-4">{cards}</div>} />
                     </Routes>
                 </div>
             </main>

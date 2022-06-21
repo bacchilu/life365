@@ -3,7 +3,7 @@ import React from 'react';
 import {NavBarButtons} from './navbar_buttons.js';
 import {Link, NavLink} from 'react-router-dom';
 
-export const NavBar = function ({categories}) {
+const CategoryMenu = function ({categories}) {
     // React.useEffect(function () {
     //     // https://stackoverflow.com/questions/23764863/how-to-close-an-open-collapsed-navbar-when-clicking-outside-of-the-navbar-elemen
     //     // $(document).ready(function () {
@@ -39,26 +39,33 @@ export const NavBar = function ({categories}) {
             </li>
         );
     });
+
     return (
-        <React.Fragment>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container-fluid">
-                    <Link className="navbar-brand" to="/">
-                        <img
-                            className="brand-img"
-                            src="https://static.life365.eu/common/template_01/images/life365-09.gif"
-                            style={{width: '200px'}}
-                        />
-                    </Link>
-                    <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="navbar-collapse collapse" id="navbarCollapse">
-                        <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">{navItems}</ul>
-                    </div>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <div className="container-fluid">
+                <Link className="navbar-brand" to="/">
+                    <img
+                        className="brand-img"
+                        src="https://static.life365.eu/common/template_01/images/life365-09.gif"
+                        style={{width: '200px'}}
+                    />
+                </Link>
+                <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="navbar-collapse collapse" id="navbarCollapse">
+                    <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">{navItems}</ul>
                 </div>
-            </nav>
+            </div>
+        </nav>
+    );
+};
+
+export const NavBar = function ({categories}) {
+    return (
+        <>
+            <CategoryMenu categories={categories} />
             <NavBarButtons />
-        </React.Fragment>
+        </>
     );
 };

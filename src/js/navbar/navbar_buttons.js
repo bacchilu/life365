@@ -49,11 +49,11 @@ export const NavBarButtons = function (props) {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Modal opened={modalOpened} setOpened={setModalOpened}>
                 {(user === null && <AuthModal />) || <UserModal />}
             </Modal>
-            <nav className="navbar navbar-expand-lg navbar-light">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <div className="navbar-collapse collapse" id="navbarCollapse">
                         <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">
@@ -72,6 +72,6 @@ export const NavBarButtons = function (props) {
                     <Search />
                 </div>
             </nav>
-        </React.Fragment>
+        </>
     );
 };
