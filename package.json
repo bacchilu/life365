@@ -1,6 +1,6 @@
 {
     "name": "life365",
-    "version": "7.0.1",
+    "version": "7.0.2",
     "description": "life365",
     "private": true,
     "source": "src/index.html",
@@ -34,7 +34,7 @@
     },
     "devDependencies": {
         "npm-check-updates": "^14.0.1",
-        "parcel": "^2.6.1",
+        "parcel": "^2.6.2",
         "process": "^0.11.10"
     },
     "dependencies": {
