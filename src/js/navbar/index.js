@@ -1,40 +1,23 @@
-import React from 'react';
-
-import {NavBarButtons} from './navbar_buttons.js';
 import {Link, NavLink} from 'react-router-dom';
 
+import {NavBarButtons} from './navbar_buttons.js';
+
 const CategoryMenu = function ({categories}) {
-    // React.useEffect(function () {
-    //     // https://stackoverflow.com/questions/23764863/how-to-close-an-open-collapsed-navbar-when-clicking-outside-of-the-navbar-elemen
-    //     // $(document).ready(function () {
-    //     //     $(document).click(function (event) {
-    //     //         var clickover = $(event.target);
-    //     //         var _opened = $('.navbar-collapse').hasClass('navbar-collapse in');
-    //     //         if (_opened === true && !clickover.hasClass('navbar-toggle')) {
-    //     //             $('button.navbar-toggle').click();
-    //     //         }
-    //     //     });
-    //     // });
-
-    //     const cb = function (e) {
-    //         console.log(e.target);
-    //     };
-    //     document.addEventListener('click', cb);
-    //     return function () {
-    //         document.removeEventListener('click', cb);
-    //     };
-    // }, []);
-
     const navItems = categories.map(function (item) {
+        const onClick = function () {
+            document.getElementById('navbarCollapse').classList.remove('show');
+        };
+
         return (
-            <li key={item['ID_Categoria']} className="nav-item col-6 col-lg-auto">
+            <li key={item.ID_Categoria} className="nav-item col-6 col-lg-auto">
                 <NavLink
                     className={function ({isActive}) {
-                        return 'nav-link' + (isActive ? ' active' : '');
+                        return `nav-link ${isActive ? ' active' : ''}`;
                     }}
-                    to={`/c/${item['slug']}-${item['ID_Categoria']}`}
+                    to={`/c/${item.slug}-${item.ID_Categoria}`}
+                    onClick={onClick}
                 >
-                    {item['Descrizione']}
+                    {item.Descrizione}
                 </NavLink>
             </li>
         );
@@ -53,7 +36,7 @@ const CategoryMenu = function ({categories}) {
                 <button className="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="navbar-collapse collapse" id="navbarCollapse">
+                <div className={`navbar-collapse collapse ${false ? 'show' : ''}`} id="navbarCollapse">
                     <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">{navItems}</ul>
                 </div>
             </div>

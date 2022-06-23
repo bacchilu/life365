@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {Search} from './search';
-import {Modal} from '../libs/modal';
 import {useUser} from '../auth';
-import {AuthModal, UserModal} from './modals';
+import {Modal} from '../libs/modal';
 import {CartButton} from './cart';
+import {AuthModal, UserModal} from './modals';
+import {Search} from './search';
 
 const LoginButton = function ({user, onLogin, onUser}) {
     if (user === undefined)
@@ -34,7 +34,7 @@ const LoginButton = function ({user, onLogin, onUser}) {
     );
 };
 
-export const NavBarButtons = function (props) {
+export const NavBarButtons = function () {
     const {data: user} = useUser();
     const [modalOpened, setModalOpened] = React.useState(false);
 
@@ -55,7 +55,7 @@ export const NavBarButtons = function (props) {
             </Modal>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <div className="navbar-collapse collapse" id="navbarCollapse">
+                    <div className="navbar-collapse">
                         <ul className="navbar-nav flex-row flex-wrap me-auto mb-2 mb-md-0">
                             <li className="nav-item col-6 col-lg-auto ms-auto">
                                 <LoginButton user={user} onLogin={onLogin} onUser={onUser} />

@@ -7,7 +7,7 @@
     "browserslist": "defaults",
     "scripts": {
         "update": "ncu -u",
-        "serve": "parcel -p 8000 --lazy",
+        "serve": "rm -rf dist && parcel -p 8000",
         "watch": "parcel watch",
         "build": "rm -rf dist && rm -rf docs && parcel build --no-source-maps --dist-dir docs --public-url=/life365"
     },
