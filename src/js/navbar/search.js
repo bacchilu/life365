@@ -1,7 +1,7 @@
 import React from 'react';
 import useSWR from 'swr';
 
-import {API} from '../parameters.js';
+import {API} from '../parameters';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 

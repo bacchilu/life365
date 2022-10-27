@@ -2,9 +2,9 @@ import React from 'react';
 import {useParams} from 'react-router-dom';
 import useSWR from 'swr';
 
-import {TreeMenu, MenuButton} from '../tree_menu';
-import {API} from '../parameters.js';
 import {useUser} from '../auth.js';
+import {API} from '../parameters';
+import {MenuButton, TreeMenu} from '../tree_menu';
 import {ProductRow} from './product.js';
 import {RootPanel} from './root_panel.js';
 

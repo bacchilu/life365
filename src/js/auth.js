@@ -1,7 +1,7 @@
 import localforage from 'localforage';
 import useSWR from 'swr';
 
-import {API} from './parameters.js';
+import {API} from './parameters';
 
 const LocalStorage = (function () {
     localforage.config({

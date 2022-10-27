@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import {API} from './parameters.js';
+import {API} from './parameters';
 
 interface Category {
     Descrizione: string;
