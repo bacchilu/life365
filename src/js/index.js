@@ -2,7 +2,7 @@ import {createRoot} from 'react-dom/client';
 import {HashRouter, Link, Route, Routes} from 'react-router-dom';
 
 import {CategoryPanel, SubCategoryPanel} from './category';
-import {useCategories} from './hooks.js';
+import {useCategories} from './hooks';
 import {NavBar} from './navbar';
 
 const Spinner = function () {
@@ -53,10 +53,9 @@ const IndexPage = function ({categories}) {
 };
 
 const App = function () {
-    const {data: categories} = useCategories();
+    const categories = useCategories();
 
     if (categories === undefined) return <Spinner />;
-
     return (
         <HashRouter>
             <header>

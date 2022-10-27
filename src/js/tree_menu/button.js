@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {Offcanvas} from '../libs/offcanvas.js';
 import {TreeMenu} from '.';
-import {useCategories} from '../hooks.js';
+import {useCategories} from '../hooks';
+import {Offcanvas} from '../libs/offcanvas.js';
 
 const useCategory = function (id) {
-    const {data} = useCategories();
-    if (data === undefined) return undefined;
-    return data.find(function (item) {
+    const categories = useCategories();
+    if (categories === undefined) return undefined;
+    return categories.find(function (item) {
         return item.ID_Categoria === id;
     });
 };
