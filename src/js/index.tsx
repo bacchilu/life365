@@ -1,3 +1,4 @@
+import React from 'react';
 import {createRoot} from 'react-dom/client';
 import {HashRouter, Link, Route, Routes} from 'react-router-dom';
 
