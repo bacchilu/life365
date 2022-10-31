@@ -3,8 +3,20 @@ import useSWR from 'swr';
 
 import {API} from './parameters';
 
-interface Token {
-    value: string;
+interface AuthData {
+    country: 'IT' | 'ES' | 'PT' | 'NL' | 'CN';
+    email: string;
+    id: number;
+    jwt: string;
+    level: number;
+    login: string;
+    name: string;
+    role: 'customer';
+    sigla: string;
+}
+
+interface LocalForageToken {
+    value: AuthData;
     ts: Date;
 }
 
@@ -15,7 +27,7 @@ const LocalStorage = (function () {
 
     return {
         get: async function () {
-            const res = await localforage.getItem<Token>('user');
+            const res = await localforage.getItem<LocalForageToken>('user');
             if (res === null || res === undefined) return null;
             if (res.ts < new Date(Date.now() - 1000 * 60 * 60 * 24)) {
                 localforage.clear();
@@ -23,7 +35,7 @@ const LocalStorage = (function () {
             }
             return res.value;
         },
-        set: function (user) {
+        set: function (user: AuthData) {
             return localforage.setItem('user', {value: user, ts: new Date()});
         },
         clear: function () {
@@ -38,7 +50,7 @@ const checkAuthentication = function () {
 
 const login = async function (login: string, password: string) {
     const res = await fetch(`${API}/auth/?login=${login}&password=${password}`);
-    const user = await res.json();
+    const user: AuthData = await res.json();
     LocalStorage.set(user);
     return user;
 };
