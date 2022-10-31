@@ -1,23 +1,25 @@
+import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 
-import {NavBarButtons} from './navbar_buttons.js';
+import {Category} from '../hooks';
+import {NavBarButtons} from './navbar_buttons';
 
-const CategoryMenu = function ({categories}) {
-    const navItems = categories.map(function (item) {
+const CategoryMenu = function ({categories}: {categories: Category[]}) {
+    const navItems = categories.map(function (category) {
         const onClick = function () {
-            document.getElementById('navbarCollapse').classList.remove('show');
+            document.getElementById('navbarCollapse')!.classList.remove('show');
         };
 
         return (
-            <li key={item.ID_Categoria} className="nav-item col-6 col-lg-auto">
+            <li key={category.ID_Categoria} className="nav-item col-6 col-lg-auto">
                 <NavLink
                     className={function ({isActive}) {
                         return `nav-link ${isActive ? ' active' : ''}`;
                     }}
-                    to={`/c/${item.slug}-${item.ID_Categoria}`}
+                    to={`/c/${category.slug}-${category.ID_Categoria}`}
                     onClick={onClick}
                 >
-                    {item.Descrizione}
+                    {category.Descrizione}
                 </NavLink>
             </li>
         );
@@ -44,7 +46,7 @@ const CategoryMenu = function ({categories}) {
     );
 };
 
-export const NavBar = function ({categories}) {
+export const NavBar = function ({categories}: {categories: Category[]}) {
     return (
         <>
             <CategoryMenu categories={categories} />

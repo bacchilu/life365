@@ -2,7 +2,7 @@ import useSWR from 'swr';
 
 import {API} from './parameters';
 
-interface Category {
+export interface Category {
     Descrizione: string;
     ID_Categoria: number;
     image: string;

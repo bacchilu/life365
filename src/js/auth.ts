@@ -3,6 +3,11 @@ import useSWR from 'swr';
 
 import {API} from './parameters';
 
+interface Token {
+    value: string;
+    ts: Date;
+}
+
 const LocalStorage = (function () {
     localforage.config({
         name: 'github.com/bacchilu/life365',
@@ -10,9 +15,9 @@ const LocalStorage = (function () {
 
     return {
         get: async function () {
-            const res = await localforage.getItem('user');
-            if (res === null) return null;
-            if (res.ts < Date.now() - 1000 * 60 * 60 * 24) {
+            const res = await localforage.getItem<Token>('user');
+            if (res === null || res === undefined) return null;
+            if (res.ts < new Date(Date.now() - 1000 * 60 * 60 * 24)) {
                 localforage.clear();
                 return null;
             }
@@ -31,31 +36,26 @@ const checkAuthentication = function () {
     return LocalStorage.get();
 };
 
-const login = async function (login, password) {
+const login = async function (login: string, password: string) {
     const res = await fetch(`${API}/auth/?login=${login}&password=${password}`);
     const user = await res.json();
     LocalStorage.set(user);
     return user;
 };
 
-const logout = function () {
-    return LocalStorage.clear();
+const logout = async function () {
+    await LocalStorage.clear();
+    return null;
 };
 
 export const useUser = function () {
-    const {data, error, mutate} = useSWR(
-        'auth',
-        function () {
-            return checkAuthentication();
-        },
-        {dedupingInterval: 60000}
-    );
+    const {data, error, mutate} = useSWR('AUTH', checkAuthentication, {dedupingInterval: 60000});
 
     return {
         data,
         error,
         Methods: {
-            login: async function (username, password) {
+            login: async function (username: string, password: string) {
                 return mutate(login(username, password));
             },
             logout: function () {
