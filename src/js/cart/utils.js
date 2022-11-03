@@ -1,5 +1,7 @@
 export const CartUtils = (function () {
     const doEvalShippingCost = function (cart, shippingFees) {
+        if (cart.empty) return 0;
+
         const weight = cart.items.reduce(function (acc, item) {
             return acc + item.peso;
         }, 0);

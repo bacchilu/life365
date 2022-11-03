@@ -75,7 +75,7 @@ export const useCart = function () {
             if (key === 'NULL_CART') return null;
             const res = await fetch(key);
             const carts = await res.json();
-            return carts.length > 0 ? carts[0] : {total: 0, items: []};
+            return carts.length > 0 ? carts[0] : {total: 0, items: [], empty: true};
         },
         {dedupingInterval: 60000}
     );

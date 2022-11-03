@@ -3,7 +3,7 @@ import useSWR from 'swr';
 
 import {API} from './parameters';
 
-interface AuthData {
+export interface AuthData {
     country: 'IT' | 'ES' | 'PT' | 'NL' | 'CN';
     email: string;
     id: number;
