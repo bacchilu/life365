@@ -2,9 +2,9 @@ import React from 'react';
 
 import {TreeMenu} from '.';
 import {useCategories} from '../hooks';
-import {Offcanvas} from '../libs/offcanvas.js';
+import {Offcanvas} from '../libs/offcanvas';
 
-const useCategory = function (id) {
+const useCategory = function (id: number) {
     const categories = useCategories();
     if (categories === undefined) return undefined;
     return categories.find(function (item) {
@@ -12,7 +12,15 @@ const useCategory = function (id) {
     });
 };
 
-const OffcanvasMenu = function ({opened, setOpened, id}) {
+const OffcanvasMenu = function ({
+    opened,
+    setOpened,
+    id,
+}: {
+    opened: boolean;
+    setOpened: (v: boolean) => void;
+    id: number;
+}) {
     const category = useCategory(id);
 
     const title = category === undefined ? 'Loading...' : category.Descrizione;
@@ -35,7 +43,7 @@ const OffcanvasMenu = function ({opened, setOpened, id}) {
     );
 };
 
-export const MenuButton = function ({id}) {
+export const MenuButton = function ({id}: {id: number}) {
     const [opened, setOpened] = React.useState(false);
 
     const onClick = function () {

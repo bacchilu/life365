@@ -1,19 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+declare var bootstrap: any;
+
+interface Offcanvas {
+    show: () => void;
+    hide: () => void;
+}
+
 const offcanvasDomEl = document.body.appendChild(document.createElement('div'));
 
 export const Offcanvas = function ({opened, setOpened, children}) {
     const [isShown, setIsShown] = React.useState(false);
     const offcanvasEl = React.useRef(null);
-    const offcanvasJs = React.useRef(null);
+    const offcanvasJs = React.useRef<Offcanvas>({show: () => {}, hide: () => {}});
     React.useEffect(function () {
-        offcanvasJs.current = new bootstrap.Offcanvas(offcanvasEl.current);
-        offcanvasEl.current.addEventListener('hidden.bs.offcanvas', function (event) {
+        const htmlDivElement: HTMLDivElement = offcanvasEl.current!;
+        offcanvasJs.current = new bootstrap.Offcanvas(htmlDivElement);
+        htmlDivElement.addEventListener('hidden.bs.offcanvas', function (event) {
             setIsShown(false);
             setOpened(false);
         });
-        offcanvasEl.current.addEventListener('shown.bs.offcanvas', function () {
+        htmlDivElement.addEventListener('shown.bs.offcanvas', function () {
             setIsShown(true);
         });
     }, []);
@@ -29,7 +37,7 @@ export const Offcanvas = function ({opened, setOpened, children}) {
     );
 
     return ReactDOM.createPortal(
-        <div ref={offcanvasEl} className="offcanvas offcanvas-start" tabIndex="-1" style={{maxWidth: '75%'}}>
+        <div ref={offcanvasEl} className="offcanvas offcanvas-start" tabIndex={-1} style={{maxWidth: '75%'}}>
             {isShown ? children : null}
         </div>,
         offcanvasDomEl

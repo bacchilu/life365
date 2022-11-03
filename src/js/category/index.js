@@ -5,8 +5,8 @@ import useSWR from 'swr';
 import {useUser} from '../auth';
 import {API} from '../parameters';
 import {MenuButton, TreeMenu} from '../tree_menu';
-import {ProductRow} from './product.js';
-import {RootPanel} from './root_panel.js';
+import {ProductRow} from './product';
+import {RootPanel} from './root_panel';
 
 const useProducts = function (id, user) {
     const baseUrl = `//${API}/products/level_3/${id}`;
