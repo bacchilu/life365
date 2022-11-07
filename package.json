@@ -1,6 +1,6 @@
 {
     "name": "life365",
-    "version": "8.0.2",
+    "version": "8.0.3",
     "description": "life365",
     "private": true,
     "source": "src/index.html",
@@ -33,7 +33,7 @@
         "vueIndentScriptAndStyle": false
     },
     "devDependencies": {
-        "@types/react": "^18.0.24",
+        "@types/react": "^18.0.25",
         "@types/react-dom": "^18.0.8",
         "npm-check-updates": "^16.3.16",
         "parcel": "^2.7.0",
