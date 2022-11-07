@@ -1,0 +1,30 @@
+FROM node
+
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+ARG USER=bacchilu
+
+RUN userdel -f node && if getent group node ; then groupdel node; fi
+RUN groupadd -g ${GROUP_ID} ${USER}
+RUN useradd -ms /bin/bash -l -u ${USER_ID} -g ${USER} ${USER}
+RUN install -d -m 0755 -o ${USER} -g ${USER} /home/${USER}
+
+WORKDIR /app
+
+COPY ./package.json .
+COPY ./package-lock.json .
+COPY ./src ./src
+
+RUN chown ${USER}:${USER} -R .
+
+USER ${USER}
+
+RUN npm install
+
+EXPOSE 8000
+
+ENTRYPOINT ["npm", "run", "serve"]
+
+# sudo docker build -t parcel -f Dockerfile.parcel .
+# sudo docker run --rm -p 5000:8000 -d parcel
+# sudo docker run --rm -p 5000:8000 -v `pwd`/src:/app/src -d parcel
