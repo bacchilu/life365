@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  parcel:
+  serve:
     build:
       context: ./
       dockerfile: ./Dockerfile.parcel
@@ -8,12 +8,25 @@ services:
         USER_ID: 1000 # `id -u`
         GROUP_ID: 1000 # `id -g`
         USER: "bacchilu" #whoami
-    # command: serve
+    command: serve
     ports:
       - '5000:8000'
     volumes:
       - ./src:/app/src
       - /app/node_modules
       - /app/docs
+  build:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.parcel
+      args:
+        USER_ID: 1000 # `id -u`
+        GROUP_ID: 1000 # `id -g`
+        USER: "bacchilu" #whoami
+    command: build
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+      - ./docs:/app/docs
 
-# sudo docker-compose up -d parcel
+# sudo docker-compose up -d serve
