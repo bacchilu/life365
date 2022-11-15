@@ -1,6 +1,6 @@
 {
     "name": "life365",
-    "version": "8.0.3",
+    "version": "8.1.-1",
     "description": "life365",
     "private": true,
     "source": "src/index.html",
@@ -34,9 +34,9 @@
     },
     "devDependencies": {
         "@types/react": "^18.0.25",
-        "@types/react-dom": "^18.0.8",
-        "npm-check-updates": "^16.3.16",
-        "parcel": "^2.7.0",
+        "@types/react-dom": "^18.0.9",
+        "npm-check-updates": "^16.4.1",
+        "parcel": "^2.8.0",
         "process": "^0.11.10"
     },
     "dependencies": {
