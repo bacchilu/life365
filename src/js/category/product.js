@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {useCart} from '../cart';
 import {CurrencyFormatter} from '../utils';
 import {AddCartForm} from './add_cart_form';

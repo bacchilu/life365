@@ -1,4 +1,3 @@
-import React from 'react';
 import {useParams} from 'react-router-dom';
 import useSWR from 'swr';
 
@@ -33,21 +32,12 @@ const Subcategory = function () {
                 Error!
             </div>
         );
-    if (data === undefined)
-        return (
-            <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>
-        );
+    if (data === undefined) return <div className="spinner-border" role="status"></div>;
 
     const items = data.map(function (item) {
         return <ProductRow key={item.id} item={item} />;
     });
-    return (
-        <React.Fragment>
-            <div className="row row-cols-1 m-1">{items}</div>
-        </React.Fragment>
-    );
+    return <div className="row row-cols-1 m-1">{items}</div>;
 };
 
 const TreeMenuPanel = function () {
@@ -82,7 +72,7 @@ export const SubCategoryPanel = function () {
     );
 };
 
-export const CategoryPanel = function (props) {
+export const CategoryPanel = function () {
     const {category_id} = useParams();
 
     const id = parseInt(category_id.split('-').pop());

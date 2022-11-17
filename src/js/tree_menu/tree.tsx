@@ -4,15 +4,29 @@ import useSWR from 'swr';
 
 import {API} from '../parameters';
 
-const toslug = function (t) {
+interface MenuItem {
+    id: number;
+    name: {
+        cn: string;
+        en: string;
+        it: string;
+    };
+    warranty_default: number;
+}
+
+interface MenuItemTree extends MenuItem {
+    children: MenuItem[];
+}
+
+const toslug = function (t: string) {
     return t
         .toLowerCase()
         .replace(/ /g, '-')
         .replace(/[^\w-]+/g, '');
 };
 
-const useTree = function (id) {
-    return useSWR(
+const useTree = function (id: number) {
+    return useSWR<MenuItemTree[]>(
         `//${API}/warehouse/tree/${id}`,
         async function (url) {
             return (await fetch(url)).json();
@@ -21,22 +35,16 @@ const useTree = function (id) {
     );
 };
 
-export const TreeMenu = function ({id}) {
+export const TreeMenu = function ({id}: {id: number}) {
     const match = useMatch('*');
     const {subcategory_id} = useParams();
     const {data} = useTree(id);
 
-    if (data === undefined)
-        return (
-            <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>
-        );
-    if (data === undefined) return null;
+    if (data === undefined) return <div className="spinner-border" role="status"></div>;
 
-    const baseUrl = match.pathname.split('/').slice(0, 3).join('/');
+    const baseUrl = match!.pathname.split('/').slice(0, 3).join('/');
 
-    const subcategoryId = subcategory_id !== undefined ? parseInt(subcategory_id.split('-').pop()) : null;
+    const subcategoryId = subcategory_id !== undefined ? parseInt(subcategory_id.split('-').pop()!) : null;
     const rootSubcategory = data.find(function (e) {
         return e.children.find(function (f) {
             return f.id === subcategoryId;

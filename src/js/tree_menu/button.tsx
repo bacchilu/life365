@@ -44,7 +44,7 @@ const OffcanvasMenu = function ({
 };
 
 export const MenuButton = function ({id}: {id: number}) {
-    const [opened, setOpened] = React.useState(false);
+    const [opened, setOpened] = React.useState<boolean>(false);
 
     const onClick = function () {
         setOpened(true);
