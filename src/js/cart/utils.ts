@@ -1,5 +1,19 @@
+interface Cart {
+    courier: number;
+    tax_value: number;
+    dropshipping: boolean;
+    payment_type: string;
+    empty: boolean;
+    addr: {spedizione: {nazione: number; provincia: number}};
+    items: {prezzo: number; qta: number; tax_value: number; peso: number}[];
+}
+
+interface ShippingFees {
+    [a: number]: {[b: number]: {city: number | null; dropship: boolean; cash: boolean; rows: {[a: number]: number}}[]};
+}
+
 export const CartUtils = (function () {
-    const doEvalShippingCost = function (cart, shippingFees) {
+    const doEvalShippingCost = function (cart: Cart, shippingFees: ShippingFees) {
         if (cart.empty) return 0;
 
         const weight = cart.items.reduce(function (acc, item) {
@@ -15,9 +29,10 @@ export const CartUtils = (function () {
                 : shippingFeeByCountry.find(function (item) {
                       return item.city === null;
                   });
-        if (cart.dropshipping) console.assert(res2.dropship);
-        if (['CONTRASSEGNO-ASSEGNO', 'CONTRASSEGNO-CONTANTI'].includes(cart.payment_type)) console.assert(res2.cash);
-        const rows = res2.rows;
+        console.assert(res2 !== undefined);
+        if (cart.dropshipping) console.assert(res2!.dropship);
+        if (['CONTRASSEGNO-ASSEGNO', 'CONTRASSEGNO-CONTANTI'].includes(cart.payment_type)) console.assert(res2!.cash);
+        const rows = res2!.rows;
         const indexRow = Math.max(
             ...Object.keys(rows)
                 .map(function (w) {
@@ -31,7 +46,7 @@ export const CartUtils = (function () {
     };
 
     return {
-        evalTotal: function (cart, shippingFees) {
+        evalTotal: function (cart: Cart, shippingFees: ShippingFees) {
             const sum = cart.items
                 .map(function (item) {
                     const res = item.prezzo * item.qta;
