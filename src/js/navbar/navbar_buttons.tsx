@@ -1,12 +1,20 @@
 import React from 'react';
 
-import {useUser} from '../auth';
+import {AuthData, useUser} from '../auth';
 import {Modal} from '../libs/modal';
 import {CartButton} from './cart';
 import {AuthModal, UserModal} from './modals';
 import {Search} from './search';
 
-const LoginButton = function ({user, onLogin, onUser}) {
+const LoginButton = function ({
+    user,
+    onLogin,
+    onUser,
+}: {
+    user: AuthData | null | undefined;
+    onLogin: (e: React.MouseEvent) => void;
+    onUser: (e: React.MouseEvent) => void;
+}) {
     if (user === undefined)
         return (
             <a className="nav-link disabled" href="#">
@@ -38,12 +46,12 @@ export const NavBarButtons = function () {
     const {data: user} = useUser();
     const [modalOpened, setModalOpened] = React.useState(false);
 
-    const onLogin = function (e) {
+    const onLogin = function (e: React.MouseEvent) {
         e.preventDefault();
         setModalOpened(true);
     };
 
-    const onUser = function (e) {
+    const onUser = function (e: React.MouseEvent) {
         e.preventDefault();
         setModalOpened(true);
     };
