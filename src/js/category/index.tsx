@@ -1,28 +1,30 @@
+import React from 'react';
 import {useParams} from 'react-router-dom';
 import useSWR from 'swr';
 
-import {useUser} from '../auth';
+import {AuthData, useUser} from '../auth';
 import {API} from '../parameters';
 import {MenuButton, TreeMenu} from '../tree_menu';
 import {ProductRow} from './product';
 import {RootPanel} from './root_panel';
 
-const useProducts = function (id, user) {
+interface Product {
+    id: number;
+}
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json() as Promise<Product[]>);
+
+const useProducts = function (id: number, user: AuthData | null | undefined) {
+    if (user === undefined) return {data: undefined, error: undefined};
     const baseUrl = `//${API}/products/level_3/${id}`;
-    return useSWR(
-        function () {
-            return user === null ? baseUrl : `${baseUrl}?jwt=${user.jwt}`;
-        },
-        async function (url) {
-            return (await fetch(url)).json();
-        },
-        {dedupingInterval: 60000}
-    );
+    const url = user === null ? baseUrl : `${baseUrl}?jwt=${user.jwt}`;
+    return useSWR(url, fetcher, {dedupingInterval: 60000});
 };
 
 const Subcategory = function () {
     const {subcategory_id} = useParams();
-    const id = parseInt(subcategory_id.split('-').pop());
+
+    const id = parseInt(subcategory_id!.split('-').pop()!);
     const {data: user} = useUser();
     const {data, error} = useProducts(id, user);
 
@@ -42,7 +44,8 @@ const Subcategory = function () {
 
 const TreeMenuPanel = function () {
     const {category_id} = useParams();
-    const id = parseInt(category_id.split('-').pop());
+
+    const id = parseInt(category_id!.split('-').pop()!);
 
     return (
         <>
@@ -75,7 +78,7 @@ export const SubCategoryPanel = function () {
 export const CategoryPanel = function () {
     const {category_id} = useParams();
 
-    const id = parseInt(category_id.split('-').pop());
+    const id = parseInt(category_id!.split('-').pop()!);
 
     return (
         <div className="row">
