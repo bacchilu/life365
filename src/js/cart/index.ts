@@ -2,19 +2,36 @@ import useSWR from 'swr';
 
 import {useUser} from '../auth';
 import {API} from '../parameters';
-import {Fetch} from './fetch';
+import {Action, Fetch} from './fetch';
 import {CartUtils} from './utils';
 
+interface ShippingFee {
+    corriere: number;
+    cash: boolean;
+    city: number | null;
+    country: number;
+    dropship: number;
+    rows: {[k: number]: number};
+}
+
 const useShippingFees = function () {
-    const res = useSWR(
+    const res = useSWR<ShippingFee[]>(
         `${API}/utils/shipping-fees`,
-        async function (url) {
+        async function (url: string) {
             return (await fetch(url)).json();
         },
         {dedupingInterval: 60000}
     );
     if (res.data !== undefined) {
-        const data = res.data.reduce(function (acc, item) {
+        const data: {
+            [k: number]: {
+                cash: boolean;
+                city: number | null;
+                country: number;
+                dropship: number;
+                rows: {[k: number]: number};
+            }[];
+        } = res.data.reduce(function (acc, item) {
             const courier = item.corriere;
             const elem = {
                 cash: item.cash,
@@ -86,10 +103,10 @@ export const useCart = function () {
         data,
         error,
         Methods: {
-            add: async function (item, qty) {
-                const action = {type: 'PUT_PRODUCT', value: {id: item.id, qta: qty}};
+            add: async function (item: {id: number}, qty: number) {
+                const action = {type: 'PUT_PRODUCT', value: {id: item.id, qta: qty}} as Action;
                 await mutate(reducer(data, shippingFees, action), false);
-                return mutate(Fetch.putProduct(user, data.id, action), false);
+                return mutate(Fetch.putProduct(user!, data.id, action), false);
             },
         },
     };

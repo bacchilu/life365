@@ -1,7 +1,7 @@
 import {AuthData} from '../auth';
 import {API} from '../parameters';
 
-interface Action {
+export interface Action {
     type: 'PUT_PRODUCT';
     value: {
         id: number;
